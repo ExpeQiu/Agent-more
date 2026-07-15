@@ -1,0 +1,161 @@
+version: "1.0"
+
+workflows:
+  content:
+    description: 任务正文生成 — 起草、证据校验、可选修订
+    trace_key: content
+    nodes:
+      - id: draft
+        type: agent
+        agent: content_drafter
+        handler: content_draft
+      - id: cite_check
+        type: rule
+        handler: cite_check
+      - id: revise
+        type: agent
+        agent: content_editor
+        handler: content_revise
+      - id: finalize
+        type: rule
+        handler: content_finalize
+    edges:
+      - from: __start__
+        to: draft
+      - from: draft
+        to: cite_check
+      - from: cite_check
+        to: revise
+        when: needs_revision
+      - from: cite_check
+        to: finalize
+        when: ok
+      - from: revise
+        to: finalize
+
+  url_import:
+    description: URL 导入 — 清洗、知识库、关键词、标题
+    trace_key: url_import
+    nodes:
+      - id: clean_page
+        type: agent
+        agent: url_cleaner
+        handler: url_clean_page
+      - id: build_knowledge
+        type: agent
+        agent: url_knowledge_builder
+        handler: url_build_knowledge
+      - id: extract_keywords
+        type: agent
+        agent: url_keyword_extractor
+        handler: url_extract_keywords
+      - id: extract_titles
+        type: agent
+        agent: url_title_generator
+        handler: url_extract_titles
+      - id: finalize
+        type: rule
+        handler: url_finalize
+    edges:
+      - from: __start__
+        to: clean_page
+      - from: clean_page
+        to: build_knowledge
+      - from: build_knowledge
+        to: extract_keywords
+      - from: extract_keywords
+        to: extract_titles
+      - from: extract_titles
+        to: finalize
+
+  semantic_chunk:
+    description: 知识库语义切片 — LLM 规划 + 规则组装
+    trace_key: semantic_chunk
+    nodes:
+      - id: plan_blocks
+        type: agent
+        agent: semantic_chunk_planner
+        handler: semantic_plan_blocks
+      - id: build_chunks
+        type: rule
+        handler: semantic_build_chunks
+    edges:
+      - from: __start__
+        to: plan_blocks
+      - from: plan_blocks
+        to: build_chunks
+
+  content_pipeline:
+    description: Chief-Deputy 编辑部 Pipeline — 并行检索、交叉验证、合规终审
+    trace_key: content_pipeline
+    nodes:
+      - id: chief
+        type: agent
+        agent: chief
+        handler: pipeline_chief
+      - id: deputy_route
+        type: agent
+        agent: deputy_router
+        handler: pipeline_deputy_route
+      - id: parallel_probe
+        type: rule
+        handler: pipeline_parallel_probe
+      - id: writer
+        type: agent
+        agent: pipeline_writer
+        handler: pipeline_writer
+      - id: xval_writer
+        type: rule
+        handler: pipeline_cross_validate_writer
+      - id: editor
+        type: agent
+        agent: pipeline_editor
+        handler: pipeline_editor
+      - id: xval_editor
+        type: rule
+        handler: pipeline_cross_validate_editor
+      - id: compliance
+        type: agent
+        agent: brand_compliance
+        handler: pipeline_compliance
+      - id: deputy_finalize
+        type: rule
+        handler: pipeline_finalize
+    edges:
+      - from: __start__
+        to: chief
+      - from: chief
+        to: deputy_route
+      - from: deputy_route
+        to: writer
+        when: fast_mode
+      - from: deputy_route
+        to: parallel_probe
+        when: deep_mode
+      - from: parallel_probe
+        to: writer
+      - from: writer
+        to: xval_writer
+      - from: xval_writer
+        to: writer
+        when: needs_revision
+      - from: xval_writer
+        to: editor
+        when: ok
+      - from: editor
+        to: xval_editor
+      - from: xval_editor
+        to: editor
+        when: needs_revision
+      - from: xval_editor
+        to: deputy_finalize
+        when: skip_compliance
+      - from: xval_editor
+        to: compliance
+        when: ok
+      - from: compliance
+        to: editor
+        when: compliance_reject
+      - from: compliance
+        to: deputy_finalize
+        when: compliance_pass

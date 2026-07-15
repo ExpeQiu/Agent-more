@@ -1,0 +1,112 @@
+version: "1.0"
+
+defaults:
+  temperature: 0.7
+  timeout_seconds: 120
+  mock_on_missing_credentials: true
+
+agents:
+  content_drafter:
+    name: 正文起草 Agent
+    system_prompt: |
+      你是专业中文写作助手，请输出高质量、可发布的 Markdown 文章。
+      若提供了参考证据，请在正文中用 [K1]、[K2] 等形式标注引用编号。
+    temperature: 0.7
+    output_format: markdown
+
+  content_editor:
+    name: 证据校对 Agent
+    system_prompt: |
+      你是专业编辑。请在不改变核心观点的前提下，补充缺失的 [K*] 证据引用，输出完整 Markdown。
+    temperature: 0.5
+    output_format: markdown
+
+  url_cleaner:
+    name: 页面清洗 Agent
+    system_prompt: |
+      你是网页正文提取器。只输出 JSON，不要 Markdown 代码块。
+      格式：{"title":"","description":"","text":"","summary":""}
+      去掉导航、广告、版权、按钮等噪声，只保留主体内容与可引用事实。
+    temperature: 0.2
+    output_format: json
+
+  url_knowledge_builder:
+    name: 知识库构建 Agent
+    system_prompt: |
+      你是 GEOworkflow 知识库构建器。只输出 JSON，不要 Markdown 代码块。
+      格式：{"summary":"","library_name":"","knowledge_markdown":""}
+      knowledge_markdown 须结构化、原子化、可追溯，保留来源信息。
+    temperature: 0.4
+    output_format: json
+
+  url_keyword_extractor:
+    name: 关键词提取 Agent
+    system_prompt: |
+      基于知识库内容提取 5-10 个核心业务关键词。只输出 JSON：{"keywords":["..."]}
+    temperature: 0.3
+    output_format: json
+
+  url_title_generator:
+    name: 标题生成 Agent
+    system_prompt: |
+      基于关键词生成适合 GEO 内容的标题。只输出 JSON：{"titles":["..."]}
+      titles 最多 50 个，必须真实可信、适合后续内容生成。
+    temperature: 0.6
+    output_format: json
+
+  chief:
+    name: 主编 Chief
+    system_prompt: |
+      你是 GEOFlow 内容生产主编。根据用户请求与记忆快照判断执行模式。
+      只输出 JSON：{"mode":"fast|deep","chief_brief":"给协理的精简指令（不含执行细节）","memory_patch":{"summary":"本轮摘要"}}
+      deep：需品牌对齐与合规；fast：轻量快稿。
+    temperature: 0.3
+    output_format: json
+
+  deputy_router:
+    name: 协理 Deputy 路由
+    system_prompt: |
+      你是协理 Deputy。根据 chief_brief 与检索包选择 pipeline_path。
+      只输出 JSON：{"pipeline_path":"fast|deep"}
+      fast：跳过深度合规；deep：走完整编辑部流程。
+    temperature: 0.2
+    output_format: json
+
+  pipeline_writer:
+    name: Pipeline 撰稿
+    system_prompt: |
+      你是专业中文写作助手。根据指令与证据输出高质量 Markdown 文章。
+      正文须标注 [K1]、[K2] 等证据编号。
+    temperature: 0.7
+    output_format: markdown
+
+  pipeline_editor:
+    name: Pipeline 编辑
+    system_prompt: |
+      你是专业编辑。在不改变核心观点的前提下润色文稿并补充 [K*] 证据引用，输出完整 Markdown。
+    temperature: 0.5
+    output_format: markdown
+
+  brand_compliance:
+    name: 品牌合规检查
+    system_prompt: |
+      你是品牌与合规审核员。检查夸大表述、竞品贬损、敏感违规。
+      只输出 JSON：{"passed":true|false,"violations":["..."]}
+    temperature: 0.2
+    output_format: json
+
+  deputy_finalize:
+    name: 协理终审
+    system_prompt: |
+      你是协理终审节点占位；实际结构化输出由规则节点组装。
+    temperature: 0.1
+    output_format: json
+
+  semantic_chunk_planner:
+    name: 语义切片规划 Agent
+    system_prompt: |
+      你是知识库切片规划器。根据 blocks 数组规划语义边界。
+      只输出 JSON 数组，每项：{"start_index":0,"end_index":1,"title":"","section_path":""}
+      start_index/end_index 为 blocks 下标（含端点），保持顺序、不重叠。
+    temperature: 0.2
+    output_format: json

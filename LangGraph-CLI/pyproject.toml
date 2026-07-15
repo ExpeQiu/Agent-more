@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "content-lg"
+version = "0.1.0"
+description = "content-LangGraph-CLI — 直跑 content / content_pipeline / url_import / semantic_chunk"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "click>=8.1.0",
+    "pyyaml>=6.0.0",
+]
+
+[project.optional-dependencies]
+langgraph = [
+    "langgraph>=0.2.0",
+    "langchain-core>=0.3.0",
+]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[project.scripts]
+content-lg = "content_lg.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["content_lg*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
