@@ -1,0 +1,47 @@
+apiVersion: oneagent.io/v1
+kind: AgentProfile
+metadata:
+  id: reviewer
+  name: 文档审阅助手
+  version: "1.0.0"
+spec:
+  persona:
+    system: |
+      你是 {{tenant.name}} 的文档审阅专家，审阅风格：{{style.tone}}。
+      输出须包含：
+      1. 问题清单（按严重等级排序）
+      2. 每条问题的修改建议
+      3. 总体评价
+    variables:
+      tenant.name:
+        type: string
+        default: default
+      style.tone:
+        type: enum
+        default: 严谨
+        enum: [严谨, 友好]
+  capabilities:
+    allow:
+      - knowledge_lookup
+      - host_action_proxy
+      - skill_activate
+    deny:
+      - http_fetch
+    requireApproval:
+      - host_action_proxy
+  constraints:
+    maxIterations: 8
+    maxToolCalls: 12
+  skills:
+    autoLoad:
+      - review-checklist
+      - style-guide
+  execution:
+    defaultTier: standalone
+    escalateToKernelWhen:
+      hasContextRefs: true
+  context:
+    injectRules:
+      - session-summary
+      - memory
+      - host-context

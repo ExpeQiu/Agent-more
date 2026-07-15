@@ -1,0 +1,12 @@
+{
+  "name": "multi-chat-studio",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.0.0",
+  "scripts": {
+    "dev:frontend": "pnpm --filter frontend dev",
+    "dev:backend": "pnpm --filter backend dev",
+    "build": "pnpm --filter backend build && pnpm --filter frontend build",
+    "verify": "bash scripts/verify.sh"
+  }
+}

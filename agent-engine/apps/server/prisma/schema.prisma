@@ -1,0 +1,224 @@
+// Prisma Schema for Agent编排引擎
+// P1-T06: PostgreSQL + Prisma 基础设施
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Agent & Session ────────────────────────────────────────────────────────
+
+model Agent {
+  id        String   @id @default(cuid())
+  name      String
+  type      String   // "coder" | "pm" | "qa" | "pmo"
+  config    Json?     // agent-specific config
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessions    Session[]
+  executions  Execution[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  agentId   String
+  agent     Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  parentId  String?  // parent session for multi-turn
+  metadata  Json?
+  createdAt DateTime @default(now())
+  endedAt   DateTime?
+
+  executions Execution[]
+  messages   Message[]
+}
+
+model Execution {
+  id          String   @id @default(cuid())
+  sessionId   String
+  session     Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  agentId     String
+  agent       Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  task        String   @db.Text
+  status      String   @default("pending") // pending|running|completed|failed
+  result      Json?
+  startedAt   DateTime @default(now())
+  endedAt     DateTime?
+  durationMs  Int?
+}
+
+// ─── Messages ───────────────────────────────────────────────────────────────
+
+model Message {
+  id          String   @id @default(cuid())
+  sessionId   String
+  session     Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role        String   // "user" | "assistant" | "system" | "tool"
+  content     String   @db.Text
+  model       String?  // which LLM model was used
+  tokens      Int?     // token count
+  latencyMs   Int?     // response latency
+  metadata    Json?
+  createdAt   DateTime @default(now())
+}
+
+// ─── LLM Call Logging ───────────────────────────────────────────────────────
+
+model LLMCall {
+  id           String   @id @default(cuid())
+  sessionId    String?
+  model        String
+  provider     String   // "openai" | "anthropic" | "dify"
+  promptTokens Int?
+  completionTokens Int?
+  totalTokens  Int?
+  latencyMs    Int
+  status       String   // "success" | "error" | "rate_limit"
+  errorMessage String?  @db.Text
+  rawRequest   Json?
+  rawResponse  Json?
+  createdAt    DateTime @default(now())
+}
+
+// ─── Workflow & Task ────────────────────────────────────────────────────────
+
+model Workflow {
+  id          String   @id @default(cuid())
+  name        String
+  description String?  @db.Text
+  definition  Json     // workflow DAG definition
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  steps       WorkflowStep[]
+}
+
+model WorkflowStep {
+  id          String   @id @default(cuid())
+  workflowId  String
+  workflow    Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  name        String
+  stepOrder   Int
+  agentType   String?  // which agent handles this step
+  inputSchema Json?
+  outputSchema Json?
+  config      Json?
+}
+
+// ─── Audit Log ─────────────────────────────────────────────────────────────
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actor      String   // "agent" | "user" | "system"
+  actorId    String?
+  action     String
+  resource   String
+  resourceId String?
+  diff       Json?    // before/after for changes
+  ipAddress  String?
+  userAgent  String?
+  createdAt   DateTime @default(now())
+}
+
+// ─── Scene Management (M4-T44 + M4-T45) ─────────────────────────────────
+
+/** 场景定义表 */
+model Scene {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  /** 触发词列表，用于 Layer 0 精确匹配 */
+  triggerWords String[] @default([])
+  /** 场景规则（JSON） */
+  rules       Json?
+  /** 场景描述文本，用于 Layer 2 向量匹配 */
+  descriptionText String?
+  /** Few-shot 示例 */
+  fewShotExamples Json?
+  /** 优先级（数字越小优先级越高） */
+  priority    Int      @default(100)
+  /** 是否启用 */
+  enabled     Boolean  @default(true)
+  /** 元数据 */
+  metadata    Json?
+  /** 当前版本号（SemVer: major.minor.patch） */
+  version     String   @default("1.0.0")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  versions    SceneVersion[]
+}
+
+/** 场景版本历史表 — M4-T45 */
+model SceneVersion {
+  id            String   @id @default(uuid())
+  sceneId      String
+  scene        Scene    @relation(fields: [sceneId], references: [id], onDelete: Cascade)
+  /** SemVer 格式：major.minor.patch */
+  version      String
+  /** 完整配置快照（JSON） */
+  config       Json
+  /** 变更摘要 */
+  changeSummary String?
+  /** 变更类型 */
+  changeType   String   @default("update") // major|minor|patch|initial
+  createdAt    DateTime @default(now())
+
+  @@unique([sceneId, version])
+  @@index([sceneId])
+  @@index([createdAt])
+}
+
+// ─── Scene Router — P1-T55 ──────────────────────────────────────────────────
+
+/**
+ * 路由决策日志
+ * 每次路由决策都会写入此表
+ */
+model RoutingDecision {
+  id                      String   @id // decision ID，如 "rd_1234567890_abc123"
+  query                  String   @db.Text
+  queryHash              String   // query 的哈希，便于检索
+  sceneId                String?  // null 表示降级到 fallback
+  sceneName              String?
+  confidence             Float
+  layer                  Int      // 0|1|2|3，命中层级
+  fallback               Boolean  @default(false)
+  reasoning              String   @db.Text
+  clarificationSuggestion String? @db.Text
+  layerScores            Json     // 各层级得分详情
+  context                Json?    // 路由上下文
+  processingTimeMs       Int
+  metadata               Json?
+  createdAt              DateTime @default(now())
+
+  // 索引
+  @@index([queryHash])
+  @@index([sceneId])
+  @@index([createdAt])
+}
+
+/**
+ * 路由日志表（P1-T55）
+ * 用于 PostgreSQL 持久化路由决策日志
+ * id 使用 UUID 主键
+ */
+model RoutingLog {
+  id              String   @id @default(uuid())
+  executionId    String?  // 对应 Execution.id
+  inputQuery     String   @db.Text
+  matchedSceneId String?  // null 表示降级
+  confidence     Float
+  layer           Int      // 命中层级 0/1/2/3
+  routingTimeMs  Int
+  createdAt      DateTime @default(now())
+
+  @@index([executionId])
+  @@index([matchedSceneId])
+  @@index([createdAt])
+}

@@ -1,0 +1,507 @@
+0 verbose cli /opt/homebrew/Cellar/node@22/22.23.1/bin/node /opt/homebrew/opt/node@22/bin/npm
+1 info using npm@10.9.8
+2 info using node@v22.23.1
+3 silly config load:file:/opt/homebrew/Cellar/node@22/22.23.1/lib/node_modules/npm/npmrc
+4 silly config load:file:/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/.npmrc
+5 silly config load:file:/Users/expeqiu/.npmrc
+6 silly config load:file:/Users/expeqiu/.npm-global/etc/npmrc
+7 verbose title npm install
+8 verbose argv "install" "--cache" "./.npm-cache"
+9 verbose logfile logs-max:10 dir:/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/.npm-cache/_logs/2026-07-10T01_41_34_356Z-
+10 verbose logfile /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/.npm-cache/_logs/2026-07-10T01_41_34_356Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+13 verbose shrinkwrap failed to load node_modules/.package-lock.json out of date, updated: node_modules
+14 silly idealTree buildDeps
+15 silly fetch manifest zod@^3.25.76
+16 silly packumentCache full:https://registry.npmmirror.com/zod cache-miss
+17 http cache https://registry.npmmirror.com/zod 29ms (cache hit)
+18 silly packumentCache full:https://registry.npmmirror.com/zod set size:3443985 disposed:false
+19 silly placeDep ROOT zod@3.25.76 REPLACE for: @compo/oneagent@0.1.0 want: ^3.25.76
+20 silly reify mark retired [ '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/zod' ]
+21 silly reify moves {
+21 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/zod': '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/.zod-MDMjTc88'
+21 silly reify }
+22 silly audit bulk request {
+22 silly audit   'core-agent': [ '0.2.0' ],
+22 silly audit   '@esbuild/aix-ppc64': [ '0.28.1' ],
+22 silly audit   '@esbuild/android-arm': [ '0.28.1' ],
+22 silly audit   '@esbuild/android-arm64': [ '0.28.1' ],
+22 silly audit   '@esbuild/android-x64': [ '0.28.1' ],
+22 silly audit   '@esbuild/darwin-arm64': [ '0.28.1' ],
+22 silly audit   '@esbuild/darwin-x64': [ '0.28.1' ],
+22 silly audit   '@esbuild/freebsd-arm64': [ '0.28.1' ],
+22 silly audit   '@esbuild/freebsd-x64': [ '0.28.1' ],
+22 silly audit   '@esbuild/linux-arm': [ '0.28.1' ],
+22 silly audit   '@esbuild/linux-arm64': [ '0.28.1' ],
+22 silly audit   '@esbuild/linux-ia32': [ '0.28.1' ],
+22 silly audit   '@esbuild/linux-loong64': [ '0.28.1' ],
+22 silly audit   '@esbuild/linux-mips64el': [ '0.28.1' ],
+22 silly audit   '@esbuild/linux-ppc64': [ '0.28.1' ],
+22 silly audit   '@esbuild/linux-riscv64': [ '0.28.1' ],
+22 silly audit   '@esbuild/linux-s390x': [ '0.28.1' ],
+22 silly audit   '@esbuild/linux-x64': [ '0.28.1' ],
+22 silly audit   '@esbuild/netbsd-arm64': [ '0.28.1' ],
+22 silly audit   '@esbuild/netbsd-x64': [ '0.28.1' ],
+22 silly audit   '@esbuild/openbsd-arm64': [ '0.28.1' ],
+22 silly audit   '@esbuild/openbsd-x64': [ '0.28.1' ],
+22 silly audit   '@esbuild/openharmony-arm64': [ '0.28.1' ],
+22 silly audit   '@esbuild/sunos-x64': [ '0.28.1' ],
+22 silly audit   '@esbuild/win32-arm64': [ '0.28.1' ],
+22 silly audit   '@esbuild/win32-ia32': [ '0.28.1' ],
+22 silly audit   '@esbuild/win32-x64': [ '0.28.1' ],
+22 silly audit   '@hono/node-server': [ '1.19.14' ],
+22 silly audit   '@jridgewell/sourcemap-codec': [ '1.5.5' ],
+22 silly audit   '@modelcontextprotocol/sdk': [ '1.29.0' ],
+22 silly audit   '@rollup/rollup-android-arm-eabi': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-android-arm64': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-darwin-arm64': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-darwin-x64': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-freebsd-arm64': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-freebsd-x64': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-linux-arm-gnueabihf': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-linux-arm-musleabihf': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-linux-arm64-gnu': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-linux-arm64-musl': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-linux-loong64-gnu': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-linux-loong64-musl': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-linux-ppc64-gnu': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-linux-ppc64-musl': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-linux-riscv64-gnu': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-linux-riscv64-musl': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-linux-s390x-gnu': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-linux-x64-gnu': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-linux-x64-musl': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-openbsd-x64': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-openharmony-arm64': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-win32-arm64-msvc': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-win32-ia32-msvc': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-win32-x64-gnu': [ '4.62.2' ],
+22 silly audit   '@rollup/rollup-win32-x64-msvc': [ '4.62.2' ],
+22 silly audit   '@types/chai': [ '5.2.3' ],
+22 silly audit   '@types/deep-eql': [ '4.0.2' ],
+22 silly audit   '@types/estree': [ '1.0.9' ],
+22 silly audit   '@types/node': [ '24.13.3' ],
+22 silly audit   '@vitest/expect': [ '3.2.7' ],
+22 silly audit   '@vitest/mocker': [ '3.2.7' ],
+22 silly audit   '@vitest/pretty-format': [ '3.2.7' ],
+22 silly audit   '@vitest/runner': [ '3.2.7' ],
+22 silly audit   '@vitest/snapshot': [ '3.2.7' ],
+22 silly audit   '@vitest/spy': [ '3.2.7' ],
+22 silly audit   '@vitest/utils': [ '3.2.7' ],
+22 silly audit   accepts: [ '2.0.0' ],
+22 silly audit   ajv: [ '8.20.0' ],
+22 silly audit   'ajv-formats': [ '3.0.1' ],
+22 silly audit   'assertion-error': [ '2.0.1' ],
+22 silly audit   'body-parser': [ '2.3.0' ],
+22 silly audit   'content-type': [ '2.0.0', '1.0.5' ],
+22 silly audit   bytes: [ '3.1.2' ],
+22 silly audit   cac: [ '6.7.14' ],
+22 silly audit   'call-bind-apply-helpers': [ '1.0.2' ],
+22 silly audit   'call-bound': [ '1.0.4' ],
+22 silly audit   chai: [ '5.3.3' ],
+22 silly audit   'check-error': [ '2.1.3' ],
+22 silly audit   commander: [ '13.1.0' ],
+22 silly audit   'content-disposition': [ '1.1.0' ],
+22 silly audit   cookie: [ '0.7.2' ],
+22 silly audit   'cookie-signature': [ '1.2.2' ],
+22 silly audit   cors: [ '2.8.6' ],
+22 silly audit   'cross-spawn': [ '7.0.6' ],
+22 silly audit   debug: [ '4.4.3' ],
+22 silly audit   'deep-eql': [ '5.0.2' ],
+22 silly audit   depd: [ '2.0.0' ],
+22 silly audit   'dunder-proto': [ '1.0.1' ],
+22 silly audit   'ee-first': [ '1.1.1' ],
+22 silly audit   encodeurl: [ '2.0.0' ],
+22 silly audit   'es-define-property': [ '1.0.1' ],
+22 silly audit   'es-errors': [ '1.3.0' ],
+22 silly audit   'es-module-lexer': [ '1.7.0' ],
+22 silly audit   'es-object-atoms': [ '1.1.2' ],
+22 silly audit   esbuild: [ '0.28.1' ],
+22 silly audit   'escape-html': [ '1.0.3' ],
+22 silly audit   'estree-walker': [ '3.0.3' ],
+22 silly audit   etag: [ '1.8.1' ],
+22 silly audit   eventsource: [ '3.0.7' ],
+22 silly audit   'eventsource-parser': [ '3.1.0' ],
+22 silly audit   'expect-type': [ '1.4.0' ],
+22 silly audit   express: [ '5.2.1' ],
+22 silly audit   'express-rate-limit': [ '8.5.2' ],
+22 silly audit   'fast-deep-equal': [ '3.1.3' ],
+22 silly audit   'fast-uri': [ '3.1.3' ],
+22 silly audit   fdir: [ '6.5.0' ],
+22 silly audit   finalhandler: [ '2.1.1' ],
+22 silly audit   forwarded: [ '0.2.0' ],
+22 silly audit   fresh: [ '2.0.0' ],
+22 silly audit   fsevents: [ '2.3.3' ],
+22 silly audit   'function-bind': [ '1.1.2' ],
+22 silly audit   'get-intrinsic': [ '1.3.0' ],
+22 silly audit   'get-proto': [ '1.0.1' ],
+22 silly audit   gopd: [ '1.2.0' ],
+22 silly audit   'has-symbols': [ '1.1.0' ],
+22 silly audit   hasown: [ '2.0.4' ],
+22 silly audit   hono: [ '4.12.28' ],
+22 silly audit   'http-errors': [ '2.0.1' ],
+22 silly audit   'iconv-lite': [ '0.7.3' ],
+22 silly audit   inherits: [ '2.0.4' ],
+22 silly audit   'ip-address': [ '10.2.0' ],
+22 silly audit   'ipaddr.js': [ '1.9.1' ],
+22 silly audit   'is-promise': [ '4.0.0' ],
+22 silly audit   isexe: [ '2.0.0' ],
+22 silly audit   jose: [ '6.2.3' ],
+22 silly audit   'js-tokens': [ '9.0.1' ],
+22 silly audit   'json-schema-traverse': [ '1.0.0' ],
+22 silly audit   'json-schema-typed': [ '8.0.2' ],
+22 silly audit   loupe: [ '3.2.1' ],
+22 silly audit   'magic-string': [ '0.30.21' ],
+22 silly audit   'math-intrinsics': [ '1.1.0' ],
+22 silly audit   'media-typer': [ '1.1.0' ],
+22 silly audit   'merge-descriptors': [ '2.0.0' ],
+22 silly audit   'mime-db': [ '1.54.0' ],
+22 silly audit   'mime-types': [ '3.0.2' ],
+22 silly audit   ms: [ '2.1.3' ],
+22 silly audit   nanoid: [ '3.3.15' ],
+22 silly audit   negotiator: [ '1.0.0' ],
+22 silly audit   'object-assign': [ '4.1.1' ],
+22 silly audit   'object-inspect': [ '1.13.4' ],
+22 silly audit   'on-finished': [ '2.4.1' ],
+22 silly audit   once: [ '1.4.0' ],
+22 silly audit   parseurl: [ '1.3.3' ],
+22 silly audit   'path-key': [ '3.1.1' ],
+22 silly audit   'path-to-regexp': [ '8.4.2' ],
+22 silly audit   pathe: [ '2.0.3' ],
+22 silly audit   pathval: [ '2.0.1' ],
+22 silly audit   picocolors: [ '1.1.1' ],
+22 silly audit   picomatch: [ '4.0.5' ],
+22 silly audit   'pkce-challenge': [ '5.0.1' ],
+22 silly audit   postcss: [ '8.5.16' ],
+22 silly audit   'proxy-addr': [ '2.0.7' ],
+22 silly audit   qs: [ '6.15.3' ],
+22 silly audit   'range-parser': [ '1.3.0' ],
+22 silly audit   'raw-body': [ '3.0.2' ],
+22 silly audit   'require-from-string': [ '2.0.2' ],
+22 silly audit   rollup: [ '4.62.2' ],
+22 silly audit   router: [ '2.2.0' ],
+22 silly audit   'safer-buffer': [ '2.1.2' ],
+22 silly audit   send: [ '1.2.1' ],
+22 silly audit   'serve-static': [ '2.2.1' ],
+22 silly audit   setprototypeof: [ '1.2.0' ],
+22 silly audit   'shebang-command': [ '2.0.0' ],
+22 silly audit   'shebang-regex': [ '3.0.0' ],
+22 silly audit   'side-channel': [ '1.1.1' ],
+22 silly audit   'side-channel-list': [ '1.0.1' ],
+22 silly audit   'side-channel-map': [ '1.0.1' ],
+22 silly audit   'side-channel-weakmap': [ '1.0.2' ],
+22 silly audit   siginfo: [ '2.0.0' ],
+22 silly audit   'source-map-js': [ '1.2.1' ],
+22 silly audit   stackback: [ '0.0.2' ],
+22 silly audit   statuses: [ '2.0.2' ],
+22 silly audit   'std-env': [ '3.10.0' ],
+22 silly audit   'strip-literal': [ '3.1.0' ],
+22 silly audit   tinybench: [ '2.9.0' ],
+22 silly audit   tinyexec: [ '0.3.2' ],
+22 silly audit   tinyglobby: [ '0.2.17' ],
+22 silly audit   tinypool: [ '1.1.1' ],
+22 silly audit   tinyrainbow: [ '2.0.0' ],
+22 silly audit   tinyspy: [ '4.0.4' ],
+22 silly audit   toidentifier: [ '1.0.1' ],
+22 silly audit   'type-is': [ '2.1.0' ],
+22 silly audit   typescript: [ '5.9.3' ],
+22 silly audit   'undici-types': [ '7.18.2' ],
+22 silly audit   unpipe: [ '1.0.0' ],
+22 silly audit   vary: [ '1.1.2' ],
+22 silly audit   vite: [ '7.3.6' ],
+22 silly audit   'vite-node': [ '3.2.4' ],
+22 silly audit   vitest: [ '3.2.7' ],
+22 silly audit   which: [ '2.0.2' ],
+22 silly audit   'why-is-node-running': [ '2.3.0' ],
+22 silly audit   wrappy: [ '1.0.2' ],
+22 silly audit   yaml: [ '2.9.0' ],
+22 silly audit   'zod-to-json-schema': [ '3.25.2' ],
+22 silly audit   zod: [ '3.25.76' ]
+22 silly audit }
+23 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-win32-x64-msvc
+24 silly reify mark deleted [
+24 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-win32-x64-msvc'
+24 silly reify ]
+25 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-win32-x64-gnu
+26 silly reify mark deleted [
+26 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-win32-x64-gnu'
+26 silly reify ]
+27 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-win32-ia32-msvc
+28 silly reify mark deleted [
+28 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-win32-ia32-msvc'
+28 silly reify ]
+29 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-win32-arm64-msvc
+30 silly reify mark deleted [
+30 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-win32-arm64-msvc'
+30 silly reify ]
+31 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-openharmony-arm64
+32 silly reify mark deleted [
+32 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-openharmony-arm64'
+32 silly reify ]
+33 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-openbsd-x64
+34 silly reify mark deleted [
+34 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-openbsd-x64'
+34 silly reify ]
+35 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-x64-musl
+36 silly reify mark deleted [
+36 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-x64-musl'
+36 silly reify ]
+37 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-x64-gnu
+38 silly reify mark deleted [
+38 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-x64-gnu'
+38 silly reify ]
+39 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-s390x-gnu
+40 silly reify mark deleted [
+40 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-s390x-gnu'
+40 silly reify ]
+41 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-riscv64-musl
+42 silly reify mark deleted [
+42 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-riscv64-musl'
+42 silly reify ]
+43 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-riscv64-gnu
+44 silly reify mark deleted [
+44 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-riscv64-gnu'
+44 silly reify ]
+45 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-ppc64-musl
+46 silly reify mark deleted [
+46 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-ppc64-musl'
+46 silly reify ]
+47 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-ppc64-gnu
+48 silly reify mark deleted [
+48 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-ppc64-gnu'
+48 silly reify ]
+49 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-loong64-musl
+50 silly reify mark deleted [
+50 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-loong64-musl'
+50 silly reify ]
+51 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-loong64-gnu
+52 silly reify mark deleted [
+52 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-loong64-gnu'
+52 silly reify ]
+53 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-arm64-musl
+54 silly reify mark deleted [
+54 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-arm64-musl'
+54 silly reify ]
+55 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-arm64-gnu
+56 silly reify mark deleted [
+56 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-arm64-gnu'
+56 silly reify ]
+57 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-arm-musleabihf
+58 silly reify mark deleted [
+58 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-arm-musleabihf'
+58 silly reify ]
+59 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-arm-gnueabihf
+60 silly reify mark deleted [
+60 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-linux-arm-gnueabihf'
+60 silly reify ]
+61 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-freebsd-x64
+62 silly reify mark deleted [
+62 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-freebsd-x64'
+62 silly reify ]
+63 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-freebsd-arm64
+64 silly reify mark deleted [
+64 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-freebsd-arm64'
+64 silly reify ]
+65 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-darwin-x64
+66 silly reify mark deleted [
+66 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-darwin-x64'
+66 silly reify ]
+67 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-android-arm64
+68 silly reify mark deleted [
+68 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-android-arm64'
+68 silly reify ]
+69 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-android-arm-eabi
+70 silly reify mark deleted [
+70 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@rollup/rollup-android-arm-eabi'
+70 silly reify ]
+71 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/win32-x64
+72 silly reify mark deleted [
+72 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/win32-x64'
+72 silly reify ]
+73 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/win32-ia32
+74 silly reify mark deleted [
+74 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/win32-ia32'
+74 silly reify ]
+75 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/win32-arm64
+76 silly reify mark deleted [
+76 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/win32-arm64'
+76 silly reify ]
+77 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/sunos-x64
+78 silly reify mark deleted [
+78 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/sunos-x64'
+78 silly reify ]
+79 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/openharmony-arm64
+80 silly reify mark deleted [
+80 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/openharmony-arm64'
+80 silly reify ]
+81 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/openbsd-x64
+82 silly reify mark deleted [
+82 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/openbsd-x64'
+82 silly reify ]
+83 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/openbsd-arm64
+84 silly reify mark deleted [
+84 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/openbsd-arm64'
+84 silly reify ]
+85 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/netbsd-x64
+86 silly reify mark deleted [
+86 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/netbsd-x64'
+86 silly reify ]
+87 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/netbsd-arm64
+88 silly reify mark deleted [
+88 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/netbsd-arm64'
+88 silly reify ]
+89 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-x64
+90 silly reify mark deleted [
+90 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-x64'
+90 silly reify ]
+91 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-s390x
+92 silly reify mark deleted [
+92 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-s390x'
+92 silly reify ]
+93 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-riscv64
+94 silly reify mark deleted [
+94 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-riscv64'
+94 silly reify ]
+95 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-ppc64
+96 silly reify mark deleted [
+96 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-ppc64'
+96 silly reify ]
+97 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-mips64el
+98 silly reify mark deleted [
+98 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-mips64el'
+98 silly reify ]
+99 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-loong64
+100 silly reify mark deleted [
+100 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-loong64'
+100 silly reify ]
+101 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-ia32
+102 silly reify mark deleted [
+102 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-ia32'
+102 silly reify ]
+103 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-arm64
+104 silly reify mark deleted [
+104 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-arm64'
+104 silly reify ]
+105 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-arm
+106 silly reify mark deleted [
+106 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/linux-arm'
+106 silly reify ]
+107 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/freebsd-x64
+108 silly reify mark deleted [
+108 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/freebsd-x64'
+108 silly reify ]
+109 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/freebsd-arm64
+110 silly reify mark deleted [
+110 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/freebsd-arm64'
+110 silly reify ]
+111 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/darwin-x64
+112 silly reify mark deleted [
+112 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/darwin-x64'
+112 silly reify ]
+113 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/android-x64
+114 silly reify mark deleted [
+114 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/android-x64'
+114 silly reify ]
+115 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/android-arm64
+116 silly reify mark deleted [
+116 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/android-arm64'
+116 silly reify ]
+117 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/android-arm
+118 silly reify mark deleted [
+118 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/android-arm'
+118 silly reify ]
+119 verbose reify failed optional dependency /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/aix-ppc64
+120 silly reify mark deleted [
+120 silly reify   '/Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent/node_modules/@esbuild/aix-ppc64'
+120 silly reify ]
+121 http cache zod@https://registry.npmmirror.com/zod/-/zod-3.25.76.tgz 0ms (cache hit)
+122 silly tarball no local data for zod@https://registry.npmmirror.com/zod/-/zod-3.25.76.tgz. Extracting by manifest.
+123 http fetch POST 404 https://registry.npmmirror.com/-/npm/v1/security/advisories/bulk 281ms
+124 silly audit bulk request failed [object Object]
+125 http fetch POST 404 https://registry.npmmirror.com/-/npm/v1/security/audits/quick 48ms
+126 verbose audit error HttpErrorGeneral: 404 Not Found - POST https://registry.npmmirror.com/-/npm/v1/security/audits/quick - [NOT_IMPLEMENTED] /-/npm/v1/security/* not implemented yet
+126 verbose audit error     at /opt/homebrew/Cellar/node@22/22.23.1/lib/node_modules/npm/node_modules/npm-registry-fetch/lib/check-response.js:103:15
+126 verbose audit error     at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+126 verbose audit error     at async [getReport] (/opt/homebrew/Cellar/node@22/22.23.1/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/audit-report.js:336:21)
+126 verbose audit error     at async AuditReport.run (/opt/homebrew/Cellar/node@22/22.23.1/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/audit-report.js:106:19) {
+126 verbose audit error   headers: [Object: null prototype] {
+126 verbose audit error     server: [ 'Tengine' ],
+126 verbose audit error     date: [ 'Fri, 10 Jul 2026 01:41:35 GMT' ],
+126 verbose audit error     'content-type': [ 'application/json' ],
+126 verbose audit error     'transfer-encoding': [ 'chunked' ],
+126 verbose audit error     connection: [ 'keep-alive' ],
+126 verbose audit error     'strict-transport-security': [ 'max-age=5184000' ],
+126 verbose audit error     via: [ 'kunlun7.cn5256[,404666]' ],
+126 verbose audit error     'timing-allow-origin': [ '*' ],
+126 verbose audit error     eagleid: [ '6f1f422517836476952162092e' ],
+126 verbose audit error     'x-fetch-attempts': [ '1' ]
+126 verbose audit error   },
+126 verbose audit error   statusCode: 404,
+126 verbose audit error   code: 'E404',
+126 verbose audit error   method: 'POST',
+126 verbose audit error   uri: 'https://registry.npmmirror.com/-/npm/v1/security/audits/quick',
+126 verbose audit error   body: {
+126 verbose audit error     error: '[NOT_IMPLEMENTED] /-/npm/v1/security/* not implemented yet'
+126 verbose audit error   },
+126 verbose audit error   pkgid: undefined
+126 verbose audit error }
+127 silly audit error [object Object]
+128 silly audit report null
+129 http fetch GET 200 https://cdn.npmmirror.com/packages/zod/3.25.76/zod-3.25.76.tgz 1101ms (cache miss)
+130 silly ADD
+131 silly ADD
+132 silly ADD
+133 silly ADD
+134 silly ADD
+135 silly ADD
+136 silly ADD
+137 silly ADD
+138 silly ADD
+139 silly ADD
+140 silly ADD
+141 silly ADD
+142 silly ADD
+143 silly ADD
+144 silly ADD
+145 silly ADD
+146 silly ADD
+147 silly ADD
+148 silly ADD
+149 silly ADD
+150 silly ADD
+151 silly ADD
+152 silly ADD
+153 silly ADD
+154 silly ADD
+155 silly ADD
+156 silly ADD
+157 silly ADD
+158 silly ADD
+159 silly ADD
+160 silly ADD
+161 silly ADD
+162 silly ADD
+163 silly ADD
+164 silly ADD
+165 silly ADD
+166 silly ADD
+167 silly ADD
+168 silly ADD
+169 silly ADD
+170 silly ADD
+171 silly ADD
+172 silly ADD
+173 silly ADD
+174 silly ADD
+175 silly ADD
+176 silly ADD
+177 silly ADD
+178 silly ADD
+179 silly CHANGE node_modules/zod
+180 verbose cwd /Volumes/Lexar/git/04 Compo/Core-Compo/OneAgent
+181 verbose os Darwin 25.2.0
+182 verbose node v22.23.1
+183 verbose npm  v10.9.8
+184 verbose exit 0
+185 info ok

@@ -1,0 +1,11 @@
+{
+  "name": "@agent-engine/expert-market-analyst",
+  "version": "1.0.0",
+  "description": "市场分析师专家角色包",
+  "main": "package.yaml",
+  "scripts": {
+    "test": "echo \"No tests yet\""
+  },
+  "keywords": ["agent-engine", "expert", "market-analyst"],
+  "author": "ai-expert"
+}

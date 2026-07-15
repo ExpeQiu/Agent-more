@@ -1,0 +1,74 @@
+# Agent编排引擎 — Production Docker Image
+# P1-T71: Docker 生产镜像配置
+#
+# 验收标准:
+#   - 镜像大小 <500MB
+#   - healthcheck 通过
+#   - 容器启动 <30s
+
+# ─── Build Stage ────────────────────────────────────────────────────────────
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@9.0.0 --activate
+
+# Copy workspace files
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY packages ./packages
+COPY apps ./apps
+
+# Install dependencies (exclude devDependencies for slim image)
+RUN pnpm install --frozen-lockfile --prod=false
+
+# Build all packages
+RUN pnpm build
+
+# Prune production dependencies
+RUN pnpm prune --prod
+
+
+# ─── Production Stage ───────────────────────────────────────────────────────
+FROM node:20-alpine AS production
+
+# Security: run as non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodeapp -u 1001 -G nodejs
+
+WORKDIR /app
+
+# Copy only production artifacts from builder
+COPY --from=builder --chown=nodeapp:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nodeapp:nodejs /app/packages ./packages
+COPY --from=builder --chown=nodeapp:nodejs /app/apps ./apps
+COPY --from=builder --chown=nodeapp:nodejs /app/package.json ./
+COPY --from=builder --chown=nodeapp:nodejs /app/pnpm-workspace.yaml ./
+
+# Copy Prisma schema and generated client
+COPY --from=builder --chown=nodeapp:nodejs /app/apps/server/prisma ./prisma
+
+# Generate Prisma client at runtime (layer cache friendly)
+RUN pnpm --filter @agent-engine/server db:generate
+
+# Switch to non-root user
+USER nodeapp
+
+# Expose ports: 3000(main), 3001(quality), 3002(scenes)
+EXPOSE 3000 3001 3002
+
+# Health check — scene-server is the last to start
+HEALTHCHECK --interval=10s --timeout=5s --start-period=30s --retries=3 \
+  CMD wget -qO- http://localhost:3002/health || exit 1
+
+# Start command — use pm2 in production for zero-downtime restarts
+# M4-T44 + M4-T45: scene-server also managed via pm2
+echo "Installing pm2..."
+RUN npm install -g pm2
+COPY --chown=nodeapp:nodejs ecosystem.config.js ./
+CMD ["pm2-runtime", "ecosystem.config.js", "--env", "production"]
+
+# Metadata
+LABEL org.opencontainers.image.title="agent-engine"
+LABEL org.opencontainers.image.version="0.1.0"
+LABEL org.opencontainers.image.description="AI Agent Orchestration Engine"

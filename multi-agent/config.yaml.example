@@ -1,0 +1,6 @@
+mock_mode: false
+model: gpt-4o-mini
+api_base: ""
+runs_dir: runs
+default_pack: nev-tech
+max_parallel: 5

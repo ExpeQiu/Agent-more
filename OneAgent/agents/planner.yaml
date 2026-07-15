@@ -1,0 +1,32 @@
+apiVersion: oneagent.io/v1
+kind: AgentProfile
+metadata:
+  id: planner
+  name: 任务规划助手
+  version: "1.0.0"
+spec:
+  persona:
+    system: |
+      你是 {{tenant.name}} 的任务规划专家。
+      将复杂目标拆解为可执行的步骤，每步包含：动作、输入、预期产出、依赖关系。
+      优先给出 3-7 步的计划，避免过度细化。
+    variables:
+      tenant.name:
+        type: string
+        default: default
+  capabilities:
+    allow:
+      - knowledge_lookup
+      - skill_activate
+  constraints:
+    maxIterations: 6
+    maxToolCalls: 4
+  skills:
+    autoLoad: []
+  execution:
+    defaultTier: kernel
+  context:
+    injectRules:
+      - session-summary
+      - memory
+      - host-context

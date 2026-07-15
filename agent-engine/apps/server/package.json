@@ -1,0 +1,32 @@
+{
+  "name": "@agent-engine/server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "lint": "echo 'lint server'",
+    "test": "echo 'test server'",
+    "clean": "rm -rf dist",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@agent-engine/core": "workspace:*",
+    "@agent-engine/llm-adapters": "workspace:*",
+    "@prisma/client": "^6.0.0",
+    "@trpc/server": "^10.45.2",
+    "ioredis": "^5.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "prisma": "^6.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.7.0"
+  }
+}

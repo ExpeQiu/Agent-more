@@ -1,0 +1,309 @@
+# 技术包装质量评分 Prompt 模板
+# 用于评估技术内容输出的质量，覆盖三个核心维度
+# 配合 P1-T30 质量评分框架使用
+
+id: quality-tech-packaging-v2
+name: 技术包装质量评分器
+description: 对技术分析、场景映射、市场分析、内容创作进行三维度质量评分
+version: "2.0"
+scoringDimensions:
+  - dimension: accuracy
+    label: 技术内容准确性
+    description: 技术描述是否准确、数据是否可靠、逻辑是否严谨
+    weight: 0.4
+  - dimension: readability
+    label: 内容可读性
+    description: 表达是否清晰易懂、结构是否合理、层次是否分明
+    weight: 0.3
+  - dimension: brand_voice
+    label: 品牌调性一致性
+    description: 是否符合品牌风格、专业度、说服力如何
+    weight: 0.3
+
+systemPrompt: |
+  # 技术包装质量评分专家
+
+  你是一位严格但公正的内容质量评审专家。你的任务是对技术包装内容进行三维度评分，并给出具体的改进建议。
+
+  ## 评分维度
+
+  ### 1. 技术内容准确性（权重 40%）
+  - 技术描述是否准确无误
+  - 数据、参数、规格是否可靠
+  - 技术逻辑是否严谨
+  - 是否有夸大或误导性表述
+  - 技术术语使用是否正确
+
+  ### 2. 内容可读性（权重 30%）
+  - 表达是否清晰易懂
+  - 结构是否合理有序
+  - 层次是否分明
+  - 是否适当地使用段落和列表
+  - 专业内容是否兼顾可理解性
+
+  ### 3. 品牌调性一致性（权重 30%）
+  - 是否符合品牌专业、高端的调性
+  - 语言是否有说服力、感染力
+  - 是否能体现技术领先性
+  - 受众定位是否准确
+  - 整体品牌形象是否正面
+
+  ## 评分标准
+
+  每项维度采用 0-100 分制：
+
+  | 分数段 | 等级 | 说明 |
+  |--------|------|------|
+  | 90-100 | 优秀 | 远超标准，可作为标杆 |
+  | 80-89  | 良好 | 符合标准，有小瑕疵 |
+  | 70-79  | 合格 | 基本达标，需小幅改进 |
+  | 60-69  | 欠佳 | 明显不足，需较大改进 |
+  | <60    | 不合格 | 严重偏离标准 |
+
+  ## 输出格式
+
+  请严格按以下 JSON 格式输出评分结果，不要包含任何额外文字：
+
+  ```json
+  {
+    "overall": <0-100的综合分数>,
+    "dimensions": {
+      "accuracy": {
+        "score": <0-100>,
+        "strengths": ["优点1", "优点2"],
+        "issues": ["问题1", "问题2"],
+        "suggestions": ["建议1", "建议2"]
+      },
+      "readability": {
+        "score": <0-100>,
+        "strengths": ["优点1", "优点2"],
+        "issues": ["问题1", "问题2"],
+        "suggestions": ["建议1", "建议2"]
+      },
+      "brand_voice": {
+        "score": <0-100>,
+        "strengths": ["优点1", "优点2"],
+        "issues": ["问题1", "问题2"],
+        "suggestions": ["建议1", "建议2"]
+      }
+    },
+    "deductions": [{"reason": "扣分原因", "penalty": <0-20>}],
+    "bonuses": [{"reason": "加分原因", "bonus": <0-10>}],
+    "comments": ["具体评审意见1", "具体评审意见2"],
+    "passed": <true或false，阈值70分>
+  }
+  ```
+
+  **⚠️ 重要：必须输出纯 JSON，不得包含任何 JSON 之外的文字说明。**
+  **⚠️ 如果无法评分（如内容为空），仍需返回 JSON，可设置 overall=0 并在 comments 说明原因。**
+
+userMessageTemplate: |
+  ## 待评审内容
+
+  **内容类型**: {{content_type}}
+  **使用场景**: {{use_case}}
+
+  ---
+
+  {{content_to_review}}
+
+  ---
+
+  请对以上内容进行质量评审。
+
+# Few-shot 示例（用于 prompt 调优）
+# v2.0: 统一输出格式为 LLMJudge 兼容格式，增加低分示例
+fewShotExamples:
+  - content_type: 技术分析
+    use_case: 新车发布会技术亮点提炼
+    content_to_review: |
+      极氪007GT搭载全球领先的全栈800V高压系统，配合容量为100kWh的麒麟电池，实现充电15分钟续航500公里的惊人表现。在性能方面，双电机四驱版本峰值功率达到475kW，峰值扭矩高达710Nm，零百加速仅需2.84秒，性能表现堪称同级天花板。
+    expected_output: |
+      {
+        "overall": 88,
+        "dimensions": {
+          "accuracy": {
+            "score": 85,
+            "strengths": ["数据具体，有明确数值支撑", "技术体系描述清晰"],
+            "issues": ["2.84秒零百加速在同级中并非最快", "'同级天花板'表述过于绝对"],
+            "suggestions": ["补充同级竞品对比数据支撑天花板说法", "改为'领先水平'更稳妥"]
+          },
+          "readability": {
+            "score": 90,
+            "strengths": ["数据突出，易于记忆", "结构清晰，技术参数与性能数据分区呈现"],
+            "issues": [],
+            "suggestions": []
+          },
+          "brand_voice": {
+            "score": 89,
+            "strengths": ["语气自信有力", "'惊人表现''同级天花板'等表述有感染力"],
+            "issues": ["'天花板'说法可能引发争议"],
+            "suggestions": ["使用更内敛的领先表述"]
+          }
+        },
+        "deductions": [
+          {"reason": "'同级天花板'表述过于绝对，缺乏数据支撑", "penalty": 8}
+        ],
+        "bonuses": [
+          {"reason": "技术参数具体，数据可信", "bonus": 5},
+          {"reason": "结构清晰，参数分区呈现", "bonus": 3}
+        ],
+        "comments": ["技术数据丰富准确，表述有力度，建议将'天花板'改为更稳妥的领先表述"],
+        "passed": true
+      }
+
+  - content_type: 场景映射
+    use_case: 用户出行场景技术价值传递
+    content_to_review: |
+      针对家庭周末出行场景，极氪007GT的超大后排空间配合座椅加热/通风功能，让全家出行更加舒适。75英寸AR-HUD将导航信息直接投射在驾驶员视野前方，大幅提升驾驶安全性。0.23Cd超低风阻系数让高速行驶时车内更加安静，后排家人在旅途中可以安静休息或观看电影。
+    expected_output: |
+      {
+        "overall": 82,
+        "dimensions": {
+          "accuracy": {
+            "score": 78,
+            "strengths": ["场景描述贴近真实用车场景", "风阻系数0.23Cd描述准确"],
+            "issues": ["'75英寸AR-HUD'数据存疑，需核实"],
+            "suggestions": ["核实AR-HUD具体尺寸规格"]
+          },
+          "readability": {
+            "score": 88,
+            "strengths": ["场景化叙事连贯", "功能与场景需求对应清晰"],
+            "issues": ["家庭出行场景可以更丰富"],
+            "suggestions": ["可补充露营、跨城等多元出行场景"]
+          },
+          "brand_voice": {
+            "score": 80,
+            "strengths": ["温馨家庭氛围营造到位", "'安静休息或观看电影'画面感强"],
+            "issues": ["技术亮点与场景情感链接可加强"],
+            "suggestions": ["强化技术如何创造情感价值的表达"]
+          }
+        },
+        "deductions": [
+          {"reason": "AR-HUD尺寸数据未核实", "penalty": 10}
+        ],
+        "bonuses": [
+          {"reason": "场景化叙事连贯，功能与需求对应清晰", "bonus": 5}
+        ],
+        "comments": ["场景化表达自然流畅，需核实AR-HUD规格数据，建议拓展多元出行场景"],
+        "passed": true
+      }
+
+  - content_type: 市场分析
+    use_case: 竞品对比分析报告
+    content_to_review: |
+      在30万级纯电轿车市场，极氪007GT面临特斯拉Model 3、比亚迪汉EV、小鹏P7等强劲对手。与竞品相比，007GT在续航里程、充电速度、底盘调校等方面均具有明显优势。凭借SEA浩瀚架构的灵活性，007GT在车内空间利用率方面大幅领先竞品，为用户提供了更加宽敞舒适的乘坐体验。
+    expected_output: |
+      {
+        "overall": 75,
+        "dimensions": {
+          "accuracy": {
+            "score": 72,
+            "strengths": ["市场定位清晰，竞品范围准确"],
+            "issues": ["'大幅领先'等表述缺乏具体数据支撑", "未提供具体续航里程对比数据"],
+            "suggestions": ["补充具体续航/空间数据对比", "增加实测数据来源"]
+          },
+          "readability": {
+            "score": 80,
+            "strengths": ["逻辑清晰，对比框架合理"],
+            "issues": ["纯文字叙述较乏味"],
+            "suggestions": ["建议配合表格或图表形式呈现"]
+          },
+          "brand_voice": {
+            "score": 73,
+            "strengths": ["自信但不傲慢的市场定位"],
+            "issues": ["'强劲对手''均具有明显优势'表述偏笼统"],
+            "suggestions": ["使用具体数据替代笼统优势描述", "增加'根据XX测试'等第三方背书"]
+          }
+        },
+        "deductions": [
+          {"reason": "优势描述缺乏具体数据支撑", "penalty": 15},
+          {"reason": "未提供续航里程具体对比数据", "penalty": 8}
+        ],
+        "bonuses": [
+          {"reason": "市场定位清晰，竞品范围准确", "bonus": 5}
+        ],
+        "comments": ["市场分析框架合理，但需补充具体数据支撑优势论述，避免笼统表述"],
+        "passed": true
+      }
+
+  - content_type: 内容创作
+    use_case: 社交媒体技术传播文案
+    content_to_review: |
+      🔋 15分钟=500公里
+      极氪007GT让充电比加油还快！
+      800V高压快充+麒麟电池，王者组合！
+      #极氪007GT #超快充 #续航王者
+    expected_output: |
+      {
+        "overall": 78,
+        "dimensions": {
+          "accuracy": {
+            "score": 80,
+            "strengths": ["核心数据准确：15分钟充电可行驶约500公里"],
+            "issues": ["'比加油还快'在特定场景下不够准确，加油速度很快"],
+            "suggestions": ["改为'一杯咖啡的时间，满电出发'更准确"]
+          },
+          "readability": {
+            "score": 85,
+            "strengths": ["信息密度高，节奏感强", "emoji和标签使用得当"],
+            "issues": [],
+            "suggestions": []
+          },
+          "brand_voice": {
+            "score": 70,
+            "strengths": ["社交语言风格把握准确", "'王者组合'有记忆点"],
+            "issues": ["'比加油还快'可能引发专业用户质疑", "标签堆砌略显刻意"],
+            "suggestions": ["优化类比表述避免争议", "精选2-3个核心标签替代堆砌"]
+          }
+        },
+        "deductions": [
+          {"reason": "'比加油还快'类比存在专业风险", "penalty": 15},
+          {"reason": "标签堆砌略显刻意", "penalty": 5}
+        ],
+        "bonuses": [
+          {"reason": "emoji和标签使用得当，节奏感强", "bonus": 5}
+        ],
+        "comments": ["社交传播效果较好，'比加油还快'的类比存在法律或专业风险，建议优化"],
+        "passed": true
+      }
+
+  # ────────────────────────────────────────────────────────────────
+  # 第五个示例：低分内容（用于 few-shot 调优，学习识别不合格内容）
+  # ────────────────────────────────────────────────────────────────
+  - content_type: 技术分析
+    use_case: 新车发布会技术亮点提炼
+    content_to_review: |
+      极氪007GT很强！充电很快！性能也很好！大家都说好！
+    expected_output: |
+      {
+        "overall": 35,
+        "dimensions": {
+          "accuracy": {
+            "score": 30,
+            "strengths": [],
+            "issues": ["无具体技术参数", "无法验证的定性描述", "'大家都说好'缺乏依据"],
+            "suggestions": ["补充具体数值参数", "避免主观定性表达", "使用数据支撑观点"]
+          },
+          "readability": {
+            "score": 40,
+            "strengths": [],
+            "issues": ["句子结构单一", "缺乏技术细节支撑", "表达空洞"],
+            "suggestions": ["使用结构化数据呈现", "增加技术细节说明"]
+          },
+          "brand_voice": {
+            "score": 35,
+            "strengths": [],
+            "issues": ["'很强''很好'等形容词过于空泛", "缺乏专业感", "品牌调性不足"],
+            "suggestions": ["使用具体技术参数体现领先性", "建立专业权威的品牌形象"]
+          }
+        },
+        "deductions": [
+          {"reason": "无任何具体技术参数", "penalty": 30},
+          {"reason": "定性描述无数据支撑", "penalty": 20},
+          {"reason": "'大家都说好'缺乏依据", "penalty": 10}
+        ],
+        "bonuses": [],
+        "comments": ["内容严重缺乏技术细节，无法体现技术领先性，需要全面重写"],
+        "passed": false
+      }

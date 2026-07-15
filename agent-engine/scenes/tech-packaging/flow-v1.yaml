@@ -1,0 +1,380 @@
+# 技术包装主控编排流程配置 (flow-v1)
+# 定义 techAnalyst → sceneAnalyst → marketAnalyst → reflect → contentDirector 的串行编排流程
+# 配合 quality-score 评分，质量 <75 时 contentDirector 重试一次
+
+id: flow-tech-packaging-v1
+name: 技术包装主流程
+description: |
+  技术包装场景的标准编排流程：
+  1. techAnalyst 进行技术深度分析
+  2. sceneAnalyst 将技术优势映射到用户场景
+  3. marketAnalyst 提供市场洞察和竞品对比
+  4. reflect 节点进行质量评审
+  5. contentDirector 整合输出传播级内容
+  当质量评分 <75 时，contentDirector 重试一次
+version: "1.0.0"
+scene: tech-packaging
+
+# 开始节点
+start:
+  id: start
+  type: start
+  name: 开始
+  description: 技术包装流程入口
+  initialInputs:
+    product_name: "{{product_name}}"
+    product_specs: "{{product_specs}}"
+    target_competitors: "{{target_competitors}}"
+    use_case: "{{use_case}}"
+    content_requirements: "{{content_requirements}}"
+
+# 节点定义
+nodes:
+  # ========== 步骤1: 技术分析师 ==========
+  - id: techAnalyst
+    type: llm
+    name: 技术分析师
+    description: 对产品进行技术深度分析，提炼技术亮点
+    timeout: 120000
+    enabled: true
+    agentId: expert-tech-analyst
+    systemPrompt: |
+      你是极氪品牌的技术分析师专家。请基于以下产品信息进行技术深度分析：
+
+      产品名称：{{product_name}}
+      产品规格：{{product_specs}}
+      目标竞品：{{target_competitors}}
+
+      你的任务是：
+      1. 深度分析产品技术架构和创新点
+      2. 提炼3-5个最具传播价值的技术亮点
+      3. 每个亮点必须包含：现象级数据 + 技术原理 + 用户价值
+      4. 评估亮点等级和与竞品的对比优势
+
+      请按要求的 JSON 格式输出技术分析结果。
+    userMessageTemplate: |
+      请对 {{product_name}} 进行技术分析。
+
+      产品规格：
+      {{product_specs}}
+
+      目标竞品：
+      {{target_competitors}}
+
+      请输出技术分析结果。
+    inputMapping:
+      product_name: product_name
+      product_specs: product_specs
+      target_competitors: target_competitors
+    outputFormat: structured_json
+    outputVar: techAnalysisResult
+    llmConfig:
+      provider: openai
+      model: gpt-4o
+      temperature: 0.7
+      maxTokens: 4000
+
+  # ========== 步骤2: 场景分析师 ==========
+  - id: sceneAnalyst
+    type: llm
+    name: 场景分析师
+    description: 将技术优势映射到用户可感知的场景价值
+    timeout: 120000
+    enabled: true
+    agentId: expert-scene-analyst
+    dependsOn:
+      - techAnalyst
+    systemPrompt: |
+      你是极氪品牌的场景叙事专家。请基于技术分析结果，进行场景映射。
+
+      技术分析结果：
+      {{techAnalysisResult}}
+
+      你的任务是：
+      1. 识别核心用户出行场景（通勤/周末出行/长途等）
+      2. 挖掘每个场景的用户痛点（物理/情感/社会层面）
+      3. 建立技术-场景-情感的映射关系
+      4. 构建有画面感的场景叙事
+
+      请按要求的 JSON 格式输出场景分析结果。
+    userMessageTemplate: |
+      请基于以下技术分析结果，进行场景映射：
+
+      {{techAnalysisResult}}
+
+      请输出场景分析结果。
+    inputMapping:
+      techAnalysisResult: techAnalysisResult
+    outputFormat: structured_json
+    outputVar: sceneAnalysisResult
+    llmConfig:
+      provider: openai
+      model: gpt-4o
+      temperature: 0.7
+      maxTokens: 4000
+
+  # ========== 步骤3: 市场分析师 ==========
+  - id: marketAnalyst
+    type: llm
+    name: 市场分析师
+    description: 提供市场洞察和竞品对比分析
+    timeout: 120000
+    enabled: true
+    agentId: expert-market-analyst
+    dependsOn:
+      - techAnalyst
+    systemPrompt: |
+      你是极氪品牌的市场战略专家。请基于技术分析结果，进行市场分析。
+
+      技术分析结果：
+      {{techAnalysisResult}}
+
+      目标竞品：
+      {{target_competitors}}
+
+      你的任务是：
+      1. 分析市场竞争格局和竞品定位
+      2. 进行技术参数竞品对比
+      3. 识别差异化竞争机会
+      4. 提供内容传播的市场切入角度
+
+      请按要求的 JSON 格式输出市场分析结果。
+    userMessageTemplate: |
+      请基于以下技术分析结果，进行市场分析：
+
+      {{techAnalysisResult}}
+
+      目标竞品：
+      {{target_competitors}}
+
+      请输出市场分析结果。
+    inputMapping:
+      techAnalysisResult: techAnalysisResult
+      target_competitors: target_competitors
+    outputFormat: structured_json
+    outputVar: marketAnalysisResult
+    llmConfig:
+      provider: openai
+      model: gpt-4o
+      temperature: 0.7
+      maxTokens: 4000
+
+  # ========== 步骤4: 质量评审节点（Reflect） ==========
+  - id: qualityReflect
+    type: reflect
+    name: 质量评审
+    description: 对三个专家的输出进行质量评分，低于阈值则触发内容重试
+    timeout: 60000
+    enabled: true
+    dependsOn:
+      - sceneAnalyst
+      - marketAnalyst
+    qualityThreshold: 75
+    sourceNodeIds:
+      - techAnalyst
+      - sceneAnalyst
+      - marketAnalyst
+    passNodeId: contentDirector
+    failNodeId: contentDirectorRetry
+    scoringDimensions:
+      accuracy: 0.4
+      readability: 0.3
+      brand_voice: 0.3
+    qualityPrompt: |
+      请对以下技术包装内容进行质量评审：
+
+      【技术分析】
+      {{techAnalysisResult}}
+
+      【场景分析】
+      {{sceneAnalysisResult}}
+
+      【市场分析】
+      {{marketAnalysisResult}}
+
+      评审维度：
+      1. 技术内容准确性（40%）：数据是否准确、逻辑是否严谨
+      2. 内容可读性（30%）：表达是否清晰、结构是否合理
+      3. 品牌调性一致性（30%）：是否符合专业高端调性
+
+      评分标准：
+      - 90-100：优秀，超出标准
+      - 80-89：良好，符合标准
+      - 70-79：合格，需小幅改进
+      - 60-69：欠佳，需较大改进
+      - <60：不合格
+
+      输出 JSON 格式的评分结果，包含各项得分和改进建议。
+
+  # ========== 步骤5a: 内容总监（主流程） ==========
+  - id: contentDirector
+    type: llm
+    name: 内容总监
+    description: 整合各专家输出，生成传播级内容
+    timeout: 180000
+    enabled: true
+    dependsOn:
+      - qualityReflect
+    agentId: expert-content-director
+    systemPrompt: |
+      你是极氪品牌的内容总监。请整合以下分析结果，创作高质量传播内容。
+
+      【技术分析】
+      {{techAnalysisResult}}
+
+      【场景分析】
+      {{sceneAnalysisResult}}
+
+      【市场分析】
+      {{marketAnalysisResult}}
+
+      你的任务是：
+      1. 整合三个专家的输出，提炼核心价值点
+      2. 创作具有传播力的内容（长文案/短文案/视觉脚本）
+      3. 确保内容符合极氪品牌调性：专业、高端、创新、可信赖
+      4. 质量自检：准确性、可读性、品牌调性三维度达标
+
+      内容需求：
+      {{content_requirements}}
+
+      请按要求的 JSON 格式输出内容创作结果。
+    userMessageTemplate: |
+      请整合以下分析结果，创作传播内容：
+
+      技术分析：
+      {{techAnalysisResult}}
+
+      场景分析：
+      {{sceneAnalysisResult}}
+
+      市场分析：
+      {{marketAnalysisResult}}
+
+      内容需求：
+      {{content_requirements}}
+
+      请输出内容创作结果。
+    inputMapping:
+      techAnalysisResult: techAnalysisResult
+      sceneAnalysisResult: sceneAnalysisResult
+      marketAnalysisResult: marketAnalysisResult
+      content_requirements: content_requirements
+    outputFormat: structured_json
+    outputVar: finalContent
+    llmConfig:
+      provider: openai
+      model: gpt-4o
+      temperature: 0.6
+      maxTokens: 6000
+
+  # ========== 步骤5b: 内容总监（重试流程，质量<75时） ==========
+  - id: contentDirectorRetry
+    type: retry
+    name: 内容总监重试
+    description: 质量不达标时，内容总监重试一次
+    timeout: 180000
+    enabled: true
+    dependsOn:
+      - qualityReflect
+    maxRetries: 1
+    retryableErrors:
+      - quality_threshold_not_met
+    retryDelayMs: 5000
+    exponentialBackoff: false
+    childNodeId: contentDirector
+    qualityFeedback: |
+      上一次内容创作质量评分未达到75分，请根据以下反馈进行改进：
+
+      质量评审反馈：
+      {{qualityFeedback}}
+
+      主要问题：
+      1. 技术准确性：{{accuracy_issues}}
+      2. 可读性：{{readability_issues}}
+      3. 品牌调性：{{brand_voice_issues}}
+
+      请针对性修改后重新输出。
+
+  # ========== 结束节点 ==========
+  - id: end
+    type: end
+    name: 结束
+    description: 技术包装流程结束
+    dependsOn:
+      - contentDirector
+      - contentDirectorRetry
+    outputMapping:
+      tech_analysis: techAnalysisResult
+      scene_analysis: sceneAnalysisResult
+      market_analysis: marketAnalysisResult
+      final_content: finalContent
+      quality_score: qualityScore
+
+# 边定义
+edges:
+  # 开始 → techAnalyst
+  - id: edge-start-tech
+    sourceId: start
+    targetId: techAnalyst
+    enabled: true
+
+  # techAnalyst → sceneAnalyst（顺序依赖）
+  - id: edge-tech-scene
+    sourceId: techAnalyst
+    targetId: sceneAnalyst
+    enabled: true
+
+  # techAnalyst → marketAnalyst（可并行，但本流程定义为顺序）
+  - id: edge-tech-market
+    sourceId: techAnalyst
+    targetId: marketAnalyst
+    enabled: true
+
+  # sceneAnalyst + marketAnalyst → qualityReflect
+  - id: edge-scene-reflect
+    sourceId: sceneAnalyst
+    targetId: qualityReflect
+    enabled: true
+
+  - id: edge-market-reflect
+    sourceId: marketAnalyst
+    targetId: qualityReflect
+    enabled: true
+
+  # qualityReflect 条件分支（通过 qualityScore 判断）
+  - id: edge-reflect-pass
+    sourceId: qualityReflect
+    targetId: contentDirector
+    condition: "qualityScore >= 75"
+    enabled: true
+
+  - id: edge-reflect-fail
+    sourceId: qualityReflect
+    targetId: contentDirectorRetry
+    condition: "qualityScore < 75"
+    enabled: true
+
+  # contentDirector / contentDirectorRetry → end
+  - id: edge-content-end
+    sourceId: contentDirector
+    targetId: end
+    enabled: true
+
+  - id: edge-retry-end
+    sourceId: contentDirectorRetry
+    targetId: end
+    enabled: true
+
+# 元数据
+metadata:
+  created_at: "2026-04-25"
+  author: "ai-expert"
+  tags:
+    - tech-packaging
+    - multi-agent
+    - orchestration
+  estimated_duration_minutes: 15
+  retry_policy:
+    max_retries: 1
+    retry_on_quality_fail: true
+    quality_threshold: 75

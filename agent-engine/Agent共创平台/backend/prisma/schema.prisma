@@ -1,0 +1,193 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  passwordHash String
+  role         String   @default("MEMBER")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("User")
+}
+
+model ConversationSession {
+  id               String                @id @default(uuid())
+  projectId        String?
+  userId           String
+  title            String
+  skillName        String?
+  type             String?               @default("single")
+  modelIds         String?
+  variables        String                @default("{}")
+  moduleType       String                @default("CHAT")
+  sessionMode      String                @default("single")
+  isActive         Boolean               @default(true)
+  config           String                @default("{}")
+  selectedModels   String                @default("[]")
+  discussionConfig String                @default("{}")
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  messages         ConversationMessage[]
+
+  @@index([projectId, userId])
+  @@index([skillName])
+  @@index([moduleType])
+}
+
+model ConversationMessage {
+  id              String              @id @default(uuid())
+  sessionId       String
+  session         ConversationSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role            String
+  content         String
+  modelId         String?
+  provider        String?
+  agentId         String?
+  roundIndex      Int                 @default(1)
+  turnIndex       Int                 @default(1)
+  compareGroupId  String?
+  isChosen        Boolean             @default(false)
+  latencyMs       Int?
+  inputTokens     Int?
+  outputTokens    Int?
+  messageType     String              @default("assistant")
+  parentMessageId String?
+  status          String?             @default("completed")
+  metadata        String?
+  createdAt       DateTime            @default(now())
+
+  @@index([sessionId, createdAt])
+  @@index([compareGroupId])
+  @@index([agentId])
+}
+
+model AgentDefinition {
+  id           String   @id @default(uuid())
+  projectId    String?
+  name         String
+  roleLabel    String
+  description  String?
+  systemPrompt String
+  defaultModel String?
+  avatar       String?
+  color        String?  @default("#6366f1")
+  isBuiltIn    Boolean  @default(false)
+  isActive     Boolean  @default(true)
+  config       String   @default("{}")
+  createdById  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([projectId])
+  @@index([isBuiltIn, isActive])
+}
+
+model DiscussionSession {
+  id               String   @id @default(uuid())
+  projectId        String?
+  conversationId   String
+  topic            String
+  mode             String
+  moderatorAgentId String?
+  maxRounds        Int      @default(3)
+  currentRound     Int      @default(1)
+  status           String   @default("PENDING")
+  finalSummary     String?
+  finalDecision    String?
+  createdById      String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([projectId, status])
+}
+
+model DiscussionParticipant {
+  id             String   @id @default(uuid())
+  discussionId   String
+  agentId        String
+  position       Int      @default(0)
+  stance         String?
+  responsibility String?
+  speakOrder     Int      @default(1)
+  isModerator    Boolean  @default(false)
+  config         String   @default("{}")
+  createdAt      DateTime @default(now())
+
+  @@index([discussionId, speakOrder])
+  @@index([agentId])
+}
+
+model DiscussionVote {
+  voteId          String   @id
+  discussionId    String
+  participantId   String
+  participantName String
+  vote            String
+  score           Int?
+  isAnonymous     Boolean  @default(false)
+  createdAt       DateTime @default(now())
+
+  @@index([discussionId, participantId])
+}
+
+model DiscussionVoteResult {
+  discussionId String   @id
+  totalVotes   Int
+  approve      Int
+  reject       Int
+  abstain      Int
+  averageScore Float?
+  winner       String?
+  generatedAt  DateTime @default(now())
+}
+
+model DiscussionAdjudication {
+  id                 String   @id
+  discussionId       String
+  winner             String
+  proScore           Float
+  conScore           Float
+  proStrengths       String
+  conStrengths       String
+  proWeaknesses      String
+  conWeaknesses      String
+  reasoning          String
+  keyDecidingFactors String
+  generatedAt        DateTime @default(now())
+
+  @@index([discussionId])
+}
+
+model DiscussionRoundScore {
+  roundScoreId  String @id
+  discussionId  String
+  roundIndex    Int
+  participantId String
+  dimension     String
+  score         Float
+
+  @@index([discussionId, roundIndex])
+}
+
+model CompareRun {
+  id              String   @id @default(uuid())
+  conversationId  String
+  prompt          String
+  selectedModels  String   @default("[]")
+  chosenModel     String?
+  chosenMessageId String?
+  summary         String?
+  createdById     String
+  createdAt       DateTime @default(now())
+
+  @@index([conversationId])
+}

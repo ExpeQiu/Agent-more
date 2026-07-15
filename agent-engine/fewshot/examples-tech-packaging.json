@@ -1,0 +1,594 @@
+{
+  "_schema": "examples-tech-packaging-v1",
+  "_description": "技术包装场景 Few-shot 示例库，覆盖技术分析/场景映射/内容创作/竞品对比/通用咨询",
+  "_version": "1.0.0",
+  "_count": 12,
+
+  "examples": [
+    {
+      "example_id": "tech-001",
+      "category": "tech_analysis",
+      "use_case": "新能源电池技术分析",
+      "input": {
+        "product_name": "极氪007 GT",
+        "product_specs": {
+          "battery_capacity_kwh": 100,
+          "battery_type": "麒麟电池",
+          "voltage_platform": "800V",
+          "fast_charge_rate": "15min SOC 10%-80%",
+          "cltc_range_km": 720,
+          "cell_type": "NCM523"
+        },
+        "target_competitors": ["特斯拉Model 3", "比亚迪汉EV", "小鹏P7"]
+      },
+      "output": {
+        "analysis_summary": "极氪007 GT凭借800V高压平台和麒麟电池，实现了15分钟快充的突破性体验，720km CLTC续航消除里程焦虑，麒麟电池的热管理技术保障了极端环境下的稳定性。",
+        "tech_highlights": [
+          {
+            "id": "tech-hl-1",
+            "title": "800V超快充：充电比加油还快",
+            "tech_detail": "全栈800V高压平台，配合大功率直流充电桩，峰值充电功率可达500kW",
+            "key_data": "15分钟 SOC 10%→80%",
+            "user_value": "一杯咖啡时间，满电出发，彻底消除充电等待焦虑",
+            "highlight_level": "breakthrough",
+            "competitor_comparison": "特斯拉V3超充15分钟约补充200km，汉EV快充需30分钟",
+            "propagation_score": 10,
+            "analogy": "就像手机快充改变了充电习惯一样"
+          },
+          {
+            "id": "tech-hl-2",
+            "title": "麒麟电池：能量与安全的完美平衡",
+            "tech_detail": "采用创新的电芯大面冷却技术，兼顾高能量密度和优秀热管理",
+            "key_data": "100kWh容量，720km CLTC续航",
+            "user_value": "一次充电，跨城往返无忧，节假日出行无需排队等充电",
+            "highlight_level": "leading",
+            "competitor_comparison": "汉EV 85kWh/610km，P7 80kWh/670km",
+            "propagation_score": 8,
+            "analogy": "更大的油箱，更少的加油站停留"
+          }
+        ],
+        "tech_narrative": {
+          "storyline": "从里程焦虑到出行自由：800V平台让充电从负担变成插电即走的日常，麒麟电池让每一次出行都充满信心",
+          "key_analogy": "电动车的快充革命，正在重演当年手机快充的故事",
+          "emotional_hook": "让每一次出发都充满期待，而非等待"
+        }
+      }
+    },
+
+    {
+      "example_id": "tech-002",
+      "category": "tech_analysis",
+      "use_case": "智能驾驶技术分析",
+      "input": {
+        "product_name": "极氪007 GT",
+        "product_specs": {
+          "sensors": "1颗激光雷达 + 12颗摄像头 + 5颗毫米波雷达 + 12颗超声波雷达",
+          "chip": "双NVIDIA Orin-X",
+          "算力_tops": 508,
+          "智能驾驶功能": "NZP高速自主领航、LCC车道保持、APA自动泊车",
+          "智能座舱芯片": "高通8295"
+        },
+        "target_competitors": ["特斯拉FSD", "华为ADS 2.0", "小鹏XNGP"]
+      },
+      "output": {
+        "analysis_summary": "极氪007 GT采用多传感器融合方案，508TOPS算力支撑全栈自研智能驾驶算法，在传感器配置上比特斯拉纯视觉方案更具复杂场景适应性，高通8295座舱芯片保障流畅交互体验。",
+        "tech_highlights": [
+          {
+            "id": "tech-hl-sensors",
+            "title": "多传感器融合：比特斯拉看得更清",
+            "tech_detail": "激光雷达+摄像头+毫米波雷达三重感知冗余，雨雪雾霾天气下依然可靠",
+            "key_data": "25颗传感器配置",
+            "user_value": "复杂天气、复杂路况都能应对，真正做到全场景可用",
+            "highlight_level": "leading",
+            "competitor_comparison": "特斯拉纯视觉方案在雨雪天气性能下降",
+            "propagation_score": 9,
+            "analogy": "就像有了眼睛之外，还多了耳朵和皮肤"
+          }
+        ]
+      }
+    },
+
+    {
+      "example_id": "scene-001",
+      "category": "scene_mapping",
+      "use_case": "周末家庭出行场景",
+      "input": {
+        "product_name": "极氪007 GT",
+        "tech_analysis_result": {
+          "tech_highlights": [
+            {
+              "id": "tech-hl-1",
+              "title": "100kWh麒麟电池，720km超长续航",
+              "key_data": "720km CLTC"
+            },
+            {
+              "id": "tech-hl-2",
+              "title": "超大的后排空间",
+              "key_data": "后排腿部空间980mm"
+            }
+          ]
+        }
+      },
+      "output": {
+        "scene_summary": "周末家庭出行场景中，极氪007 GT的超长续航和宽适空间彻底改变了家庭用户的出行体验，让跨城亲子游成为真正的放松享受，而非疲惫奔波。",
+        "core_scenes": [
+          {
+            "scene_id": "scene-weekend-family-trip",
+            "scene_name": "周末跨城亲子游",
+            "scene_description": "周五下班后，爸爸从上海市区开车，带着妈妈和8岁儿子，前往苏州太湖度假区过周末，全程约150km",
+            "pain_points": {
+              "physical": ["之前开燃油车加油排队耽误时间", "孩子坐在后排觉得挤", "担心续航不够"],
+              "emotional": ["出发前反复确认续航很焦虑", "孩子抱怨坐车无聊"],
+              "social": []
+            },
+            "tech_mapping": [
+              {
+                "tech_highlight_id": "tech-hl-1",
+                "scene_behavior": "周五下班直接出发，不用绕路加油，到苏州还有60%电量",
+                "emotional_value": "轻松出发，不用焦虑"
+              },
+              {
+                "tech_highlight_id": "tech-hl-2",
+                "scene_behavior": "孩子在后排可以伸直腿，还能用后排娱乐屏看动画片",
+                "emotional_value": "孩子不闹，大人安心"
+              }
+            ],
+            "scene_narrative": {
+              "before": "出发前反复确认油量，绕路去加油站，排队等候，孩子在后排抱怨无聊",
+              "after": "下班直接出发，电量充足，孩子在后排看动画、休息，到达后精力充沛",
+              "emotional_arc": "从'又要出发了好累'到'期待周末家庭时光'"
+            },
+            "visual_elements": ["一家三口笑着上车", "孩子在后排看动画", "到达目的地后精力充沛的家庭合影"],
+            "priority": "high"
+          }
+        ]
+      }
+    },
+
+    {
+      "example_id": "scene-002",
+      "category": "scene_mapping",
+      "use_case": "早晚高峰通勤场景",
+      "input": {
+        "product_name": "极氪007 GT",
+        "tech_analysis_result": {
+          "tech_highlights": [
+            {
+              "id": "tech-hl-1",
+              "title": "智能驾驶辅助减轻通勤疲劳",
+              "key_data": "LCC+ALC功能"
+            },
+            {
+              "id": "tech-hl-2",
+              "title": "AR-HUD导航信息投射",
+              "key_data": "75英寸等效显示"
+            }
+          ]
+        }
+      },
+      "output": {
+        "scene_summary": "早晚高峰通勤场景中，智能驾驶辅助和AR-HUD大幅降低了驾驶疲劳，堵车不再是煎熬，而是一段可以放松的移动时光。",
+        "core_scenes": [
+          {
+            "scene_id": "scene-commute-peak",
+            "scene_name": "早晚高峰通勤",
+            "scene_description": "工作日早晨8点，张先生从浦东家里开车去浦西公司，全程25km，途经拥堵的内环高架",
+            "pain_points": {
+              "physical": ["堵车时反复油门刹车脚很酸", "注意力高度集中容易疲劳"],
+              "emotional": ["堵车让人烦躁", "担心走神错过路口"],
+              "social": []
+            },
+            "tech_mapping": [
+              {
+                "tech_highlight_id": "tech-hl-1",
+                "scene_behavior": "开启LCC车道保持和交通拥堵辅助，系统自动跟车，张先生只需轻扶方向盘",
+                "emotional_value": "脚不用一直踩油门刹车，精神不用高度紧张"
+              },
+              {
+                "tech_highlight_id": "tech-hl-2",
+                "scene_behavior": "导航信息直接投射在挡风玻璃上，不用低头看屏幕",
+                "emotional_value": "眼睛不离开路面，安全感更强"
+              }
+            ],
+            "scene_narrative": {
+              "before": "堵车时脚酸背痛，眼睛盯着前方不敢分神，错过路口就麻烦了",
+              "after": "开启智能驾驶后，轻松跟车，AR-HUD让导航一目了然，通勤变成放松时刻",
+              "emotional_arc": "从'通勤是煎熬'到'堵车也能听本书'"
+            },
+            "priority": "high"
+          }
+        ]
+      }
+    },
+
+    {
+      "example_id": "market-001",
+      "category": "market_analysis",
+      "use_case": "竞品对比分析",
+      "input": {
+        "product_name": "极氪007 GT",
+        "target_competitors": ["特斯拉Model 3", "比亚迪汉EV", "小鹏P7"],
+        "comparison_metrics": ["续航里程", "快充速度", "智驾配置", "价格"]
+      },
+      "output": {
+        "market_summary": "在30万级纯电轿车市场，极氪007 GT凭借800V平台的超快充和麒麟电池的超长续航形成差异化优势，在智能化配置上处于第一梯队，但品牌认知度仍需提升。",
+        "competitive_landscape": {
+          "direct_competitors": [
+            {
+              "name": "特斯拉Model 3",
+              "positioning": "科技感、智能驾驶领导者",
+              "core_strengths": ["FSD智能驾驶品牌力强", "超充网络覆盖广", "操控性好"],
+              "potential_weaknesses": ["续航优势不再明显", "内饰简约被指简陋", "本土化智驾功能落后"],
+              "content_strategy": "主打科技品牌和自动驾驶生态"
+            },
+            {
+              "name": "比亚迪汉EV",
+              "positioning": "性价比、安全、刀片电池",
+              "core_strengths": ["刀片电池安全性口碑好", "性价比高", "售后网络完善"],
+              "potential_weaknesses": ["智能驾驶相对落后", "平台电压较低（400V）", "设计偏保守"],
+              "content_strategy": "主打安全性和性价比"
+            }
+          ]
+        },
+        "tech_comparison": {
+          "comparison_matrix": [
+            {
+              "metric": "续航里程(CLTC)",
+              "our_product": "720km",
+              "competitor_a": "675km (Model 3)",
+              "competitor_b": "610km (汉EV)",
+              "advantage": "领先15-18%，消除里程焦虑"
+            },
+            {
+              "metric": "快充时间",
+              "our_product": "15min (10%-80%)",
+              "competitor_a": "30min (V3超充)",
+              "competitor_b": "30min",
+              "advantage": "快充速度领先约50%"
+            }
+          ],
+          "differentiation_points": [
+            {
+              "dimension": "充电速度",
+              "our_advantage": "800V平台超快充，15分钟补能400+km",
+              "competitor_weakness": "400V平台快充普遍需30分钟",
+              "propagation_potential": 10
+            }
+          ]
+        },
+        "swot_analysis": {
+          "strengths": ["800V超快充技术领先", "麒麟电池能量密度高", "SEA浩瀚架构扩展性强"],
+          "weaknesses": ["品牌认知度低于特斯拉/比亚迪", "超充网络覆盖不及特斯拉"],
+          "opportunities": ["超快充体验差异化切入", "家庭用户场景深耕"],
+          "threats": ["特斯拉持续降价", "比亚迪汉改款升级"]
+        }
+      }
+    },
+
+    {
+      "example_id": "content-001",
+      "category": "content_creation",
+      "use_case": "社交媒体短文案创作",
+      "input": {
+        "product_name": "极氪007 GT",
+        "tech_highlights": [
+          {
+            "title": "800V超快充",
+            "key_data": "15分钟 SOC 10%-80%"
+          }
+        ],
+        "scene_context": "周末跨城出行场景",
+        "content_type": "朋友圈/微博短文案",
+        "tone": "自信、专业、有温度"
+      },
+      "output": {
+        "content_pieces": [
+          {
+            "content_id": "social-copy-001",
+            "content_type": "短文案",
+            "title": "一杯咖啡的时间，满电出发",
+            "body": "极氪007 GT，800V超快充\n15分钟，充电10%-80%\n跨城出差、周末出游\n不再为充电等待，不再有里程焦虑\n这就是纯电出行的自由感 🚗\n\n#极氪007GT #超快充 #续航无忧",
+            "length_words": 68,
+            "target_platform": "朋友圈/微博",
+            "tone": "自信从容，带有一点诗意的自由感",
+            "key_messages": ["15分钟快充", "消除里程焦虑", "纯电出行自由"],
+            "tech_anchors": ["800V超快充平台", "15分钟补能400+km"]
+          },
+          {
+            "content_id": "social-copy-002",
+            "content_type": "短文案",
+            "title": "比加油还快的高速充电体验",
+            "body": "当你还在排队等加油\n我已经充好电出发了\n极氪007 GT，800V超快充技术\n服务区一杯咖啡的时间\n满电续航700+公里\n这就是选择的力量 ⚡",
+            "length_words": 62,
+            "target_platform": "微博",
+            "tone": "自信、略带挑衅的对比感",
+            "key_messages": ["充电比加油快", "服务区一杯咖啡时间", "700+km续航"],
+            "tech_anchors": ["800V平台", "麒麟电池"]
+          }
+        ]
+      }
+    },
+
+    {
+      "example_id": "content-002",
+      "category": "content_creation",
+      "use_case": "产品发布会PPT文案",
+      "input": {
+        "product_name": "极氪007 GT",
+        "tech_highlights": [
+          {
+            "title": "800V全栈高压平台",
+            "key_data": "峰值功率500kW，充电15分钟续航500km"
+          },
+          {
+            "title": "麒麟电池",
+            "key_data": "100kWh，720km CLTC续航"
+          },
+          {
+            "title": "SEA浩瀚架构",
+            "key_data": "原生支持800V，可持续进化"
+          }
+        ],
+        "content_type": "发布会PPT长文案",
+        "tone": "专业、震撼、引领"
+      },
+      "output": {
+        "content_pieces": [
+          {
+            "content_id": "ppt-copy-001",
+            "content_type": "长文案",
+            "title": "极氪007 GT | 重新定义纯电出行",
+            "body": "【场景引入】\n\n你上一次因为充电而焦虑是什么时候？\n节假日出行，服务区排队2小时？\n长途出差，总在计算续航里程？\n\n【技术突破】\n\n极氪007 GT，搭载全栈800V高压平台\n全球领先的充电技术，让充电进入'咖啡时间'时代\n\n15分钟，从10%充到80%\n500公里，满电出发\n\n这不是实验室数据，是真实用户体验\n这不是未来概念，是今天即可拥有\n\n【底层支撑】\n\n100kWh麒麟电池，能量密度行业领先\nSEA浩瀚架构，原生800V基因\n从电芯到整车，从充电到续航\n全链路高效协同，重新定义纯电出行标准\n\n【情感升华】\n\n当充电不再焦虑\n当续航不再算计\n当出行真正自由\n\n极氪007 GT，让每一次出发，都充满期待\n\n#极氪007GT #超快充时代",
+            "length_words": 210,
+            "target_platform": "发布会PPT",
+            "tone": "震撼、引领、情感共鸣",
+            "key_messages": ["15分钟快充", "500km续航", "全链路800V", "纯电出行自由"],
+            "tech_anchors": ["800V高压平台", "麒麟电池", "SEA浩瀚架构"]
+          }
+        ]
+      }
+    },
+
+    {
+      "example_id": "content-003",
+      "category": "content_creation",
+      "use_case": "视频分镜脚本",
+      "input": {
+        "product_name": "极氪007 GT",
+        "scene_context": "周末家庭出行",
+        "content_type": "TVC视频脚本",
+        "duration_seconds": 60
+      },
+      "output": {
+        "content_pieces": [
+          {
+            "content_id": "video-script-001",
+            "content_type": "视频脚本",
+            "title": "极氪007 GT | 一家人的周末",
+            "duration": "60秒",
+            "target_platform": "TVC/社交视频",
+            "script": {
+              "scene_1": {
+                "time": "0-5秒",
+                "visual": "周五傍晚，年轻爸爸走向停在公司楼下的极氪007 GT",
+                "audio": "轻松愉悦的背景音乐",
+                "text": "周五下班，一如往常"
+              },
+              "scene_2": {
+                "time": "5-10秒",
+                "visual": "爸爸打开车门，后排8岁儿子已经在等，妈妈递过来一杯咖啡",
+                "audio": "家庭温馨的对话声",
+                "text": "接上家人，出发"
+              },
+              "scene_3": {
+                "time": "10-20秒",
+                "visual": "车内视角，爸爸中控屏一键导航太湖，AR-HUD显示路线，孩子在后排看动画",
+                "audio": "导航语音'全程150公里，预计到达剩余电量62%'",
+                "text": "电量充足，路线清晰"
+              },
+              "scene_4": {
+                "time": "20-30秒",
+                "visual": "服务区短暂休整，一家人下车伸懒腰，爸爸顺手插上充电枪",
+                "audio": "咖啡机声音",
+                "text": "一杯咖啡的时间"
+              },
+              "scene_5": {
+                "time": "30-40秒",
+                "visual": "充电完成画面：15分钟，10%→80%，屏幕显示'满电出发'",
+                "audio": "科技感的确认音效",
+                "text": "15分钟，满电出发"
+              },
+              "scene_6": {
+                "time": "40-55秒",
+                "visual": "到达太湖边，夕阳下的全家福，孩子奔跑向湖边，爸爸看着续航里程会心一笑",
+                "audio": "温馨的背景音乐渐强",
+                "text": "这就是周末该有的样子"
+              },
+              "scene_7": {
+                "time": "55-60秒",
+                "visual": "极氪007 GT车头Logo，广告语",
+                "audio": "品牌Slogan",
+                "text": "极氪007 GT | 让每一次出发，都充满期待"
+              }
+            }
+          }
+        ]
+      }
+    },
+
+    {
+      "example_id": "comp-001",
+      "category": "competitor_comparison",
+      "use_case": "800V平台竞品横向对比",
+      "input": {
+        "product_name": "极氪007 GT",
+        "focus_tech": "800V高压平台",
+        "competitors": ["小鹏G6", "问界M5 EV", "阿维塔11"]
+      },
+      "output": {
+        "comparison_title": "800V平台技术横向对比",
+        "comparison_summary": "极氪007 GT是30万级唯一实现800V平台量产交付的轿车产品，在充电速度和平台覆盖上领先竞品 SUV 车型。",
+        "comparison_table": [
+          {
+            "维度": "800V平台",
+            "极氪007 GT": "✅ 全系标配",
+            "小鹏G6": "✅ 选配（MAX版）",
+            "问界M5 EV": "❌ 400V平台",
+            "阿维塔11": "✅ 标配",
+            "备注": "极氪是轿车中唯一全系800V"
+          },
+          {
+            "维度": "峰值充电功率",
+            "极氪007 GT": "500kW",
+            "小鹏G6": "480kW（顶配）",
+            "问界M5 EV": "约100kW",
+            "阿维塔11": "240kW",
+            "备注": "极氪峰值功率领先"
+          },
+          {
+            "维度": "10%-80%快充时间",
+            "极氪007 GT": "15分钟",
+            "小鹏G6": "20分钟",
+            "问界M5 EV": "约40分钟",
+            "阿维塔11": "25分钟",
+            "备注": "极氪充电最快"
+          }
+        ],
+        "key_differentiator": "极氪007 GT是同价位段唯一全系标配800V的纯电轿车，相比竞品SUV车型，轿车的风阻更低、高速续航更扎实。",
+        "recommended_angle": "最适合传播的角度：'30万级唯一全系800V纯电轿车，充电比SUV还快'"
+      }
+    },
+
+    {
+      "example_id": "comp-002",
+      "category": "competitor_comparison",
+      "use_case": "家庭用车场景竞品综合对比",
+      "input": {
+        "product_name": "极氪007 GT",
+        "competitors": ["特斯拉Model 3", "比亚迪汉EV", "小鹏P7"],
+        "focus_scenario": "家庭用车"
+      },
+      "output": {
+        "comparison_title": "家庭用车场景竞品综合对比",
+        "comparison_summary": "极氪007 GT在家庭用户最关心的空间、续航、充电三个维度上均领先竞品，是30万级最适合家庭用户的选择。",
+        "scenario_analysis": {
+          "family_user_priority": {
+            "1_续航不焦虑": "极氪007 GT 720km > Model 3 675km > P7 670km > 汉EV 610km",
+            "2_充电要快": "极氪007 GT 15min > 汉EV 30min = P7 30min > Model 3 30min",
+            "3_空间要大": "极氪007 GT 980mm后排 > 汉EV 950mm > P7 930mm > Model 3 880mm",
+            "4_安全要强": "均标配L2辅助，但极氪007 GT多了驾驶员疲劳监测"
+          }
+        },
+        "family_recommendation": "对于有孩子的家庭用户，极氪007 GT的720km超长续航意味着上海到杭州往返无需充电，15分钟快充让服务区休息不再是等待而是享受，980mm后排空间让孩子更舒适。"
+      }
+    },
+
+    {
+      "example_id": "general-001",
+      "category": "general_consulting",
+      "use_case": "技术传播策略咨询",
+      "input": {
+        "query": "极氪007 GT的800V超快充技术，应该如何向普通消费者传播？有哪些传播角度？",
+        "context": {
+          "tech": "800V超快充，15分钟10%-80%",
+          "competitors": "特斯拉V3超充30分钟，汉EV快充30分钟",
+          "target_audience": "30-45岁家庭用户，有一定科技认知但非技术专家"
+        }
+      },
+      "output": {
+        "query_summary": "800V超快充技术的消费者传播策略建议",
+        "recommended_angles": [
+          {
+            "angle": "时间类比法",
+            "description": "用消费者熟悉的时间概念类比",
+            "examples": [
+              "一杯咖啡的时间，满电出发",
+              "比加油还快的充电体验",
+              "15分钟 = 一集电视剧的时间 = 满电续航500km"
+            ],
+            "rationale": "普通用户对'15分钟'有直观感受，但不理解500kW充电功率的含义"
+          },
+          {
+            "angle": "场景代入法",
+            "description": "在具体场景中展现技术价值",
+            "examples": [
+              "节假日高速服务区：别人排队2小时，你充完咖啡正好走",
+              "出差路上：服务区休息15分钟，电量从10%回到80%",
+              "日常通勤：家到公司往返50km，一周充一次电够用"
+            ],
+            "rationale": "家庭用户最关心的是'实际使用中省不省心'，场景化叙事让技术可见可感"
+          },
+          {
+            "angle": "对比锚定法",
+            "description": "与燃油车/竞品对比建立认知",
+            "examples": [
+              "充电15分钟 vs 加油等待5分钟：差距正在消失",
+              "极氪007 GT 15分钟 vs 竞品30分钟：充电快一倍",
+              "从续航焦虑到出行自由：800V重新定义电动车体验"
+            ],
+            "rationale": "用户需要参照物才能理解'领先'的含义，对比是最有效的认知建立方式"
+          }
+        ],
+        "avoid_angles": [
+          "纯技术参数罗列（普通用户不关心500kW，只关心多久能充满）",
+          "绝对化表述（'最快''第一'等缺乏数据支撑可能被质疑）",
+          "与燃油车极端对比（'充电比加油还快'在特定条件下才成立）"
+        ],
+        "recommended_content_formats": [
+          "15-30秒短视频：服务区快充场景",
+          "朋友圈长图：一图读懂800V超快充",
+          "KOL实测视频：实测15分钟快充全过程",
+          "对比图：一图对比各品牌充电速度"
+        ]
+      }
+    },
+
+    {
+      "example_id": "general-002",
+      "category": "general_consulting",
+      "use_case": "品牌调性一致性咨询",
+      "input": {
+        "query": "极氪品牌在技术传播中应该如何平衡'专业性'和'亲和力'？有哪些雷区和误区？",
+        "context": {
+          "brand_position": "高端纯电品牌，对标BBA燃油车用户",
+          "target_audience": "高净值家庭用户，注重品质和体验",
+          "competitive_pressure": "特斯拉品牌力强，比亚迪性价比高"
+        }
+      },
+      "output": {
+        "query_summary": "极氪品牌技术传播的调性平衡策略",
+        "core_principle": "极氪的技术传播应该是'专业但不晦涩，高端但不高冷'，核心是让技术服务于用户的美好生活，而非技术的自我炫耀。",
+        "balance_framework": {
+          "do": {
+            "examples": [
+              "用用户场景承载技术价值：'720km续航，让上海到杭州往返不用充电'",
+              "用类比降低理解门槛：'就像手机快充改变了充电习惯'",
+              "用情感共鸣替代技术堆砌：'让每一次出发都充满期待'",
+              "用真实数据建立信任：具体数字 > 模糊形容"
+            ],
+            "principle": "技术是手段，用户体验是目的"
+          },
+          "avoid": {
+            "examples": [
+              "堆砌技术术语：'全域800V平台、碳化硅功率器件、高压电控系统'",
+              "绝对化表述：'最快''最强''第一'（除非有明确数据支撑）",
+              "脱离场景的自嗨：'极致性能、巅峰体验'（用户感受不到）",
+              "过度对标燃油车：'颠覆传统、取代BBA'（容易引发反感）"
+            ],
+            "principle": "技术传播的核心是建立信任，而非制造话题"
+          }
+        },
+        "tone_guide": {
+          "recommended": ["自信从容", "专业有温度", "引领不炫耀", "用户视角"],
+          "caution": ["过于技术", "过度营销", "绝对化", "攻击性对比"]
+        },
+        "practical_tips": [
+          "写完文案后问自己：普通用户能看懂吗？能感受到价值吗？",
+          "技术参数要配场景解读：'500kW峰值功率'要配合'15分钟充满'才能被理解",
+          "高端感来自克制：少用感叹号，少用极端词，多用事实和数据说话",
+          "建立品牌专属表达：形成极氪自己的技术语言体系"
+        ]
+      }
+    }
+  ]
+}

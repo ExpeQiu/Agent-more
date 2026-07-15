@@ -1,0 +1,199 @@
+# Agent编排引擎 — CI/CD Pipeline
+# P1-T70: CI/CD流水线搭建
+#
+# 验收标准:
+#   - lint + typecheck + test 三项全过才可合并
+#   - 覆盖率 ≥60%
+
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PNPM_VERSION: '9.0.0'
+  NODE_VERSION: '20'
+
+jobs:
+  # ─── Lint ────────────────────────────────────────────────────────────────
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+        env:
+          HUSKY: '0'
+
+      - name: Run lint
+        run: pnpm lint
+
+  # ─── TypeScript Type Check ───────────────────────────────────────────────
+  typecheck:
+    name: Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+        env:
+          HUSKY: '0'
+
+      - name: Type check all packages
+        run: pnpm -r run build
+
+  # ─── Test with Coverage ─────────────────────────────────────────────────
+  test:
+    name: Test (Coverage ≥60%)
+    runs-on: ubuntu-latest
+    needs: [lint, typecheck]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+        env:
+          HUSKY: '0'
+
+      - name: Run tests with coverage
+        run: pnpm test
+        env:
+          DATABASE_URL: postgresql://agent_engine:agent_engine_test@localhost:5432/agent_engine_test
+          REDIS_URL: redis://default:redis_test@localhost:6379/0
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        if: always()
+        with:
+          files: ./coverage/coverage-final.json
+          fail_ci_if_error: true
+          flags: unittests
+          name: agent-engine-ci
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  # ─── Integration Test (PostgreSQL + Redis) ───────────────────────────────
+  integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: [lint, typecheck]
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: agent_engine_test
+          POSTGRES_USER: agent_engine
+          POSTGRES_PASSWORD: agent_engine_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7-alpine
+        env:
+          REDIS_PASSWORD: redis_test
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli -a redis_test ping"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+        env:
+          HUSKY: '0'
+
+      - name: Run Prisma migrations
+        run: pnpm db:generate && pnpm db:push
+        env:
+          DATABASE_URL: postgresql://agent_engine:agent_engine_test@localhost:5432/agent_engine_test
+
+      - name: Run integration tests
+        run: pnpm test -- --run
+        env:
+          DATABASE_URL: postgresql://agent_engine:agent_engine_test@localhost:5432/agent_engine_test
+          REDIS_URL: redis://default:redis_test@localhost:6379/0
+
+  # ─── E2E Smoke Test ──────────────────────────────────────────────────────
+  e2e-smoke:
+    name: E2E Smoke Test
+    runs-on: ubuntu-latest
+    needs: [integration]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build production image
+        run: pnpm build
+
+      - name: Run E2E smoke tests
+        run: pnpm test:e2e --run
+        env:
+          DATABASE_URL: postgresql://agent_engine:agent_engine_test@localhost:5432/agent_engine_test
+          REDIS_URL: redis://default:redis_test@localhost:6379/0
+
+# ─── Merge Gate ────────────────────────────────────────────────────────────
+# All jobs must pass before merge is allowed
+mergeable: false  # Controlled by required status checks in repo settings

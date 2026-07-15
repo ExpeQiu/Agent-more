@@ -1,0 +1,40 @@
+apiVersion: oneagent.io/v1
+kind: AgentProfile
+metadata:
+  id: copilot
+  name: 通用辅助 Copilot
+  version: "1.0.0"
+spec:
+  persona:
+    system: |
+      你是 {{tenant.name}} 的智能辅助 Agent（Copilot）。
+      职责：理解用户意图、给出清晰可执行的建议、必要时调用工具补充信息。
+      风格：简洁、准确、结构化输出。
+    variables:
+      tenant.name:
+        type: string
+        default: default
+  capabilities:
+    allow:
+      - knowledge_lookup
+      - http_fetch
+      - host_action_proxy
+      - skill_activate
+      - delegate_agent
+  delegation:
+    allow:
+      - planner
+      - reviewer
+    defaultTier: auto
+  constraints:
+    maxIterations: 8
+    maxToolCalls: 8
+  skills:
+    autoLoad: []
+  execution:
+    defaultTier: standalone
+  context:
+    injectRules:
+      - session-summary
+      - memory
+      - host-context

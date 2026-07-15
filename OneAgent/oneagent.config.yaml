@@ -1,0 +1,37 @@
+server:
+  port: 8790
+  gatewayToken: ${ONEAGENT_TOKEN}
+
+kernel:
+  mode: embedded
+  spagentUrl: http://127.0.0.1:8787
+  sessionDb: ./data/sessions.sqlite
+
+agents:
+  dir: ./agents
+
+skills:
+  dir: ./skills
+  maxInjectChars: 8000
+  remote:
+    skillforge:
+      base: http://127.0.0.1:8200
+      enabled: false
+
+federation:
+  config: ${COMPO_PLUGINS_CONFIG}
+
+model:
+  provider: openai-compatible
+  apiKey: ${OPENAI_API_KEY}
+  baseUrl: ${OPENAI_BASE_URL}
+  model: ${OPENAI_MODEL}
+
+defaults:
+  agent: copilot
+  tenant: default
+  executionTier: auto
+
+logging:
+  level: info
+  file: ./logs/oneagent.log

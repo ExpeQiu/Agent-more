@@ -1,0 +1,34 @@
+{
+  "name": "@compo/oneagent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Copilot-style auxiliary agent with persona injection, skills, and CLI.",
+  "bin": {
+    "oneagent": "./dist/src/cli/index.js"
+  },
+  "exports": {
+    ".": "./dist/src/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "verify": "./verify.sh",
+    "start": "./scripts/start.sh",
+    "cli": "node dist/src/cli/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "commander": "^13.1.0",
+    "core-agent": "file:../SpAgent",
+    "yaml": "^2.8.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.0"
+  }
+}

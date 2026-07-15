@@ -1,0 +1,61 @@
+# Agent编排引擎 — Infrastructure Services
+# P1-T06: PostgreSQL | P1-T07: Redis
+
+version: '3.9'
+
+services:
+  # ─── PostgreSQL ───────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: agent-engine-pg
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: agent_engine
+      POSTGRES_USER: agent_engine
+      POSTGRES_PASSWORD: agent_engine_dev
+    ports:
+      - '5432:5432'
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U agent_engine -d agent_engine']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ─── Redis ────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: agent-engine-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass redis_dev
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', '-a', 'redis_dev', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ─── Redis Cluster (optional HA) ─────────────────────────────────────────
+  redis-cluster:
+    image: redis:7-alpine
+    container_name: agent-engine-redis-cluster
+    restart: unless-stopped
+    command: >
+      redis-server --cluster-enabled yes
+      --cluster-config-file nodes.conf
+      --cluster-node-timeout 5000
+      --requirepass redis_cluster
+      --appendonly yes
+    ports:
+      - '6380:6380'
+    volumes:
+      - redis_cluster_data:/data
+
+volumes:
+  pg_data:
+  redis_data:
+  redis_cluster_data:

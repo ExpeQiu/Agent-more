@@ -1,0 +1,38 @@
+{
+  "name": "agent-engine",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "pnpm -r --parallel run dev",
+    "build": "pnpm -r run build",
+    "lint": "eslint . --ext .ts,.tsx",
+    "test": "vitest run --reporter=verbose",
+    "test:watch": "vitest --reporter=verbose",
+    "test:e2e": "vitest run tests/mvp-acceptance/ --reporter=verbose",
+    "clean": "pnpm -r run clean",
+    "db:migrate": "pnpm --filter @agent-engine/server db:migrate",
+    "db:generate": "pnpm --filter @agent-engine/server db:generate",
+    "db:push": "pnpm --filter @agent-engine/server db:push"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "@vitest/coverage-v8": "^2.1.9",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.9"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "@agent-engine/expert-content-director",
+  "version": "1.0.0",
+  "description": "内容总监专家角色包",
+  "main": "package.yaml",
+  "scripts": {
+    "test": "echo \"No tests yet\""
+  },
+  "keywords": ["agent-engine", "expert", "content-director"],
+  "author": "ai-expert"
+}
